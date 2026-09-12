@@ -1,1 +1,23 @@
 
+services:
+  - type: web
+    name: amruthadharainfra
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: nagesh@1024
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: STORAGE_DIR
+        value: /opt/render/project/src/storage
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 1
