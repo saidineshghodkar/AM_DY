@@ -1,5 +1,5 @@
 """
-Amruthadhara Infra - Production Flask Application
+Amruthadhara Infra - Production Flask Application (Render-ready)
 """
 import json
 import os
@@ -10,11 +10,10 @@ from functools import wraps
 
 from flask import (
     Flask, render_template, request, jsonify, redirect,
-    session, render_template_string
+    session, render_template_string, send_from_directory
 )
 from werkzeug.utils import secure_filename
 
-# Optional .env loading
 try:
     from dotenv import load_dotenv
     load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
@@ -25,33 +24,27 @@ except ImportError:
 # Paths & Configuration
 # ---------------------------------------------------------------------------
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATA_FILE = os.path.join(BASE_DIR, 'data.json')
-UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'images')
+
+# On Render we set STORAGE_DIR to a persistent disk mount.
+# Locally it falls back to the app folder.
+STORAGE_DIR = os.environ.get('STORAGE_DIR', BASE_DIR)
+
+DATA_FILE = os.path.join(STORAGE_DIR, 'data.json')
+UPLOAD_FOLDER = os.path.join(STORAGE_DIR, 'uploads')
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 IS_PRODUCTION = os.environ.get('FLASK_ENV', 'production') == 'production'
 
-# ---------------------------------------------------------------------------
-# Admin credentials
-# ---------------------------------------------------------------------------
-# Defaults below are used if no .env file / environment variables are set.
-# To override in production, create a `.env` file next to this file:
-#     ADMIN_USERNAME=nagesh@1024
-#     ADMIN_PASSWORD=Q2!f<?P
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'nagesh@1024')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'Q2!f<?P')
 
 
-# ---------------------------------------------------------------------------
-# Secret key (persistent)
-# ---------------------------------------------------------------------------
 def _load_or_create_secret_key():
     env_key = os.environ.get('SECRET_KEY')
     if env_key:
         return env_key
-
-    key_file = os.path.join(BASE_DIR, '.secret_key')
+    key_file = os.path.join(STORAGE_DIR, '.secret_key')
     if os.path.exists(key_file):
         try:
             with open(key_file, 'r', encoding='utf-8') as fh:
@@ -60,7 +53,6 @@ def _load_or_create_secret_key():
                     return key
         except OSError:
             pass
-
     key = secrets.token_hex(32)
     try:
         with open(key_file, 'w', encoding='utf-8') as fh:
@@ -71,9 +63,6 @@ def _load_or_create_secret_key():
     return key
 
 
-# ---------------------------------------------------------------------------
-# Flask app
-# ---------------------------------------------------------------------------
 app = Flask(__name__)
 app.secret_key = _load_or_create_secret_key()
 
@@ -87,14 +76,15 @@ app.config.update(
     JSON_SORT_KEYS=False,
 )
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Create folders safely — on Vercel this fails, but on Render it works
+try:
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+except OSError as exc:
+    app.logger.warning("Could not create upload folder %s: %s", UPLOAD_FOLDER, exc)
 
 _data_lock = threading.Lock()
 
 
-# ---------------------------------------------------------------------------
-# Default site data
-# ---------------------------------------------------------------------------
 def _default_data():
     return {
         "logo_url": "logo.png",
@@ -232,7 +222,6 @@ def load_data():
             except OSError:
                 pass
             return data
-
         try:
             with open(DATA_FILE, 'r', encoding='utf-8') as fh:
                 return json.load(fh)
@@ -270,9 +259,6 @@ def _set_security_headers(resp):
     return resp
 
 
-# ---------------------------------------------------------------------------
-# Login page
-# ---------------------------------------------------------------------------
 LOGIN_FORM = '''
 <!DOCTYPE html>
 <html>
@@ -317,9 +303,6 @@ LOGIN_FORM = '''
 '''
 
 
-# ---------------------------------------------------------------------------
-# Public routes
-# ---------------------------------------------------------------------------
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -357,9 +340,12 @@ def health():
     return jsonify({"status": "ok"}), 200
 
 
-# ---------------------------------------------------------------------------
-# Admin auth
-# ---------------------------------------------------------------------------
+# Serve uploaded images from the persistent storage folder
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == 'POST':
@@ -371,7 +357,6 @@ def admin():
             session.permanent = True
             return redirect('/admin')
         return render_template_string(LOGIN_FORM, error='Invalid credentials')
-
     if not session.get('logged_in'):
         return render_template_string(LOGIN_FORM)
     return render_template('admin.html')
@@ -383,9 +368,6 @@ def logout():
     return redirect('/admin')
 
 
-# ---------------------------------------------------------------------------
-# API - data
-# ---------------------------------------------------------------------------
 @app.route('/api/data', methods=['GET'])
 def get_data():
     resp = jsonify(load_data())
@@ -407,19 +389,14 @@ def update_data():
     return jsonify({"status": "success", "message": "Data updated successfully"}), 200
 
 
-# ---------------------------------------------------------------------------
-# API - upload
-# ---------------------------------------------------------------------------
 @app.route('/api/upload', methods=['POST'])
 @login_required
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
-
     file = request.files['file']
     if not file or file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
-
     if not allowed_file(file.filename):
         return jsonify({'error': 'File type not allowed'}), 400
 
@@ -438,9 +415,6 @@ def upload_image():
     return jsonify({'filename': unique_name}), 200
 
 
-# ---------------------------------------------------------------------------
-# Error handlers
-# ---------------------------------------------------------------------------
 @app.errorhandler(413)
 def _too_large(_e):
     return jsonify({"status": "error", "message": "File too large (max 16 MB)"}), 413
@@ -458,8 +432,5 @@ def _server_error(_e):
     return "<h1>500 - Internal Server Error</h1>", 500
 
 
-# ---------------------------------------------------------------------------
-# Local dev entry point
-# ---------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
