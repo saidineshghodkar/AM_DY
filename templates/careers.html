@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Careers | Amruthadhara Infra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#051025',
+                            blue: '#0a2558',
+                            cyan: '#00b4d8',
+                            light: '#e0f2fe',
+                            silver: '#e2e8f0',
+                            metal: '#64748b',
+                            chrome: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Montserrat', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #051025; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00b4d8; }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: #00b4d8; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        .career-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px 22px 26px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid #edf2f7;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .career-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        .career-card .icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #e0f2fe;
+            color: #00b4d8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
+            flex-shrink: 0;
+        }
+        .career-card h3 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0a2558;
+            margin-bottom: 4px;
+        }
+        .career-card .detail {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .career-card .detail i {
+            width: 18px;
+            color: #00b4d8;
+            margin-right: 6px;
+        }
+        .career-card .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            align-self: flex-start;
+        }
+        .career-card .badge.job { background: #fef3c7; color: #b45309; }
+        .career-card .badge.intern { background: #d1fae5; color: #065f46; }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 2px dashed #d1d9e6;
+        }
+        .empty-state i { font-size: 2.8rem; color: #94a3b8; margin-bottom: 12px; }
+        .empty-state h4 { color: #1e293b; font-weight: 600; }
+        .empty-state p { color: #64748b; font-size: 0.9rem; }
+        .floating-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1.4rem;
+        }
+        .floating-btn:hover { transform: scale(1.1); }
+        .floating-btn.whatsapp { background: #25d366; }
+        .floating-btn.phone { background: linear-gradient(135deg, #1e3a8a, #1e40af); }
+        @media (max-width: 640px) {
+            .career-card { padding: 18px 16px 20px; }
+            .career-card .icon-wrap { width: 44px; height: 44px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body class="text-slate-700 bg-slate-50 antialiased selection:bg-brand-cyan selection:text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-brand-navy border-b border-white/5 shadow-lg">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold flex items-center gap-3">
+                <img id="nav-logo" src="" alt="Logo" class="h-10 w-auto object-contain hidden" />
+                <div class="flex flex-col">
+                    <span class="text-lg md:text-2xl font-display tracking-tight text-white transition-colors">Amruthadhara</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.3em] text-brand-cyan uppercase font-light transition-colors">Infra</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="/" class="nav-link text-brand-cyan hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white focus:outline-none p-2 hover:text-brand-cyan transition-colors z-50 relative" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-navy border-t border-white/10 w-full shadow-2xl">
+            <div class="flex flex-col px-6 py-6 space-y-4 text-center">
+                <a href="/" class="nav-link text-brand-cyan block py-3 border-b border-white/5">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-brand-cyan block py-3">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Buttons -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <a id="btn-whatsapp" href="#" target="_blank" class="floating-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a id="btn-phone" href="#" class="floating-btn phone"><i class="fa-solid fa-phone"></i></a>
+    </div>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-16 bg-gradient-to-b from-brand-navy to-brand-blue text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-4">Careers</h1>
+            <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto">Join a team that's building the future with passion, precision, and purpose.</p>
+        </div>
+    </section>
+
+    <!-- Careers Content -->
+    <section class="py-16 md:py-20 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-navy font-display">Work With Us</h2>
+                <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full mt-4 mb-6"></div>
+                <p class="text-slate-600 text-lg leading-relaxed">We're always looking for talented, driven individuals who share our commitment to quality, innovation, and sustainability. Explore our current openings below.</p>
+            </div>
+
+            <!-- Jobs -->
+            <div class="mb-16">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-brand-navy/10 text-brand-cyan flex items-center justify-center text-lg"><i class="fa-regular fa-briefcase"></i></div>
+                    <h3 class="text-2xl font-bold text-brand-navy font-display">Open Positions</h3>
+                    <span class="ml-auto text-sm text-slate-400 bg-white px-3 py-1 rounded-full border border-slate-200" id="job-count">0</span>
+                </div>
+                <div id="jobs-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div id="jobs-empty" class="empty-state hidden">
+                    <i class="fa-regular fa-briefcase"></i>
+                    <h4>No Job Openings</h4>
+                    <p>Check back later for new opportunities. We're always growing!</p>
+                </div>
+            </div>
+
+            <!-- Internships -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-brand-cyan/10 text-brand-cyan flex items-center justify-center text-lg"><i class="fa-regular fa-graduation-cap"></i></div>
+                    <h3 class="text-2xl font-bold text-brand-navy font-display">Internships</h3>
+                    <span class="ml-auto text-sm text-slate-400 bg-white px-3 py-1 rounded-full border border-slate-200" id="intern-count">0</span>
+                </div>
+                <div id="interns-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div id="interns-empty" class="empty-state hidden">
+                    <i class="fa-regular fa-graduation-cap"></i>
+                    <h4>No Internships Available</h4>
+                    <p>We'll post internship opportunities here as they become available.</p>
+                </div>
+            </div>
+
+            <!-- Apply CTA -->
+            <div class="mt-16 bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm text-center">
+                <h4 class="text-2xl font-bold text-brand-navy font-display mb-3">Don't see the right role?</h4>
+                <p class="text-slate-500 max-w-lg mx-auto mb-6">We're always open to connecting with passionate individuals. Send us your resume and we'll keep you in mind for future opportunities.</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="/contact" class="inline-flex items-center gap-2 bg-brand-cyan text-white px-8 py-3 rounded-full font-bold hover:bg-brand-blue transition shadow-lg shadow-brand-cyan/20">
+                        <i class="fa-regular fa-paper-plane"></i> Get in Touch
+                    </a>
+                    <a href="mailto:info@amruthadharainfra.com" class="inline-flex items-center gap-2 bg-brand-navy text-white px-8 py-3 rounded-full font-bold hover:bg-brand-blue transition shadow-lg">
+                        <i class="fa-regular fa-envelope"></i> Send Resume
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-brand-navy text-white relative">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold font-display mb-4">Build Your Career With Us</h2>
+            <p class="text-slate-300 max-w-xl mx-auto mb-8">Join a team that values innovation, integrity, and the drive to build something meaningful.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/contact" class="bg-brand-cyan hover:bg-brand-blue text-white px-8 py-3 rounded-full font-bold transition shadow-lg shadow-brand-cyan/20">
+                    <i class="fa-regular fa-message mr-2"></i> Contact Us
+                </a>
+                <a href="tel:+919347051097" class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-full font-bold transition border border-white/20">
+                    <i class="fa-solid fa-phone mr-2"></i> Call Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-white pt-16 pb-8 border-t-4 border-brand-cyan">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold font-display mb-4">Amruthadhara Infra</h3>
+                    <p class="text-slate-400 text-sm mb-6">Delivering excellence in civil engineering and sustainable construction.</p>
+                    <div class="flex gap-4">
+                        <a href="#" id="footer-fb" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="footer-insta" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" id="footer-linkedin" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" id="footer-youtube" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" id="footer-twitter" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="/" class="hover:text-brand-cyan transition text-brand-cyan">Home</a></li>
+                        <li><a href="/aboutus" class="hover:text-brand-cyan transition">About Us</a></li>
+                        <li><a href="/services" class="hover:text-brand-cyan transition">Services</a></li>
+                        <li><a href="/gallery" class="hover:text-brand-cyan transition">Gallery</a></li>
+                        <li><a href="/projects" class="hover:text-brand-cyan transition">Projects</a></li>
+                        <li><a href="/careers" class="hover:text-brand-cyan transition">Careers</a></li>
+                        <li><a href="/contact" class="hover:text-brand-cyan transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-brand-cyan"></i> <span id="footer-phone"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-brands fa-whatsapp text-brand-cyan"></i> <span id="footer-whatsapp"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand-cyan"></i> <span id="footer-email"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-brand-cyan"></i> <span id="footer-address"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-slate-500 text-xs border-t border-white/10 pt-8">
+                &copy; 2026 Amruthadhara Infra. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function fetchData(force = false) {
+            try {
+                const url = '/api/data' + (force ? '?_=' + Date.now() : '');
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Network error');
+                return await res.json();
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                alert('Could not load content from server. Ensure Flask is running.');
+                return null;
+            }
+        }
+
+        function renderCareers(data) {
+            if (!data) return;
+            const contact = data.contact || {};
+            const social = data.social || {};
+            const careers = data.careers || { jobs: [], internships: [] };
+            const jobs = careers.jobs || [];
+            const internships = careers.internships || [];
+
+            const logo = document.getElementById('nav-logo');
+            if (data.logo_url) {
+                logo.src = '/static/images/' + data.logo_url;
+                logo.classList.remove('hidden');
+            }
+
+            document.getElementById('btn-whatsapp').href = 'https://wa.me/91' + (contact.whatsapp || '');
+            document.getElementById('btn-phone').href = 'tel:+91' + (contact.phone || '');
+            document.getElementById('footer-phone').textContent = '+91 ' + (contact.phone || '');
+            document.getElementById('footer-whatsapp').textContent = '+91 ' + (contact.whatsapp || '');
+            document.getElementById('footer-email').textContent = contact.email || '';
+            document.getElementById('footer-address').textContent = contact.address || '';
+
+            const socialMap = {
+                'footer-youtube': social.youtube,
+                'footer-twitter': social.twitter,
+                'footer-fb': social.facebook,
+                'footer-insta': social.instagram,
+                'footer-linkedin': social.linkedin
+            };
+            Object.keys(socialMap).forEach(id => {
+                const el = document.getElementById(id);
+                if (el && socialMap[id]) el.href = socialMap[id];
+            });
+
+            const jobsGrid = document.getElementById('jobs-grid');
+            const jobsEmpty = document.getElementById('jobs-empty');
+            const internGrid = document.getElementById('interns-grid');
+            const internEmpty = document.getElementById('interns-empty');
+            const jobCount = document.getElementById('job-count');
+            const internCount = document.getElementById('intern-count');
+
+            jobCount.textContent = jobs.length;
+            if (jobs.length === 0) {
+                jobsGrid.innerHTML = '';
+                jobsEmpty.classList.remove('hidden');
+            } else {
+                jobsEmpty.classList.add('hidden');
+                jobsGrid.innerHTML = jobs.map(job => `
+                    <div class="career-card">
+                        <div class="icon-wrap"><i class="fa-regular fa-briefcase"></i></div>
+                        <h3>${job.title || 'Untitled'}</h3>
+                        <div class="detail mt-1"><i class="fa-regular fa-clock"></i> ${job.experience || 'Experience not specified'}</div>
+                        <div class="detail"><i class="fa-regular fa-calendar"></i> ${job.type || 'Full Time'}</div>
+                        <span class="badge job">${job.type || 'Full Time'}</span>
+                    </div>
+                `).join('');
+            }
+
+            internCount.textContent = internships.length;
+            if (internships.length === 0) {
+                internGrid.innerHTML = '';
+                internEmpty.classList.remove('hidden');
+            } else {
+                internEmpty.classList.add('hidden');
+                internGrid.innerHTML = internships.map(intern => `
+                    <div class="career-card">
+                        <div class="icon-wrap"><i class="fa-regular fa-graduation-cap"></i></div>
+                        <h3>${intern.title || 'Untitled'}</h3>
+                        <div class="detail mt-1"><i class="fa-regular fa-location-dot"></i> ${intern.location || 'Location not specified'}</div>
+                        <div class="detail"><i class="fa-regular fa-clock"></i> ${intern.duration || 'Duration not specified'}</div>
+                        <span class="badge intern">Internship</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function initMobileMenu() {
+            const mmBtn = document.getElementById('mobile-menu-btn');
+            const mm = document.getElementById('mobile-menu');
+            if (mmBtn && mm) {
+                mmBtn.addEventListener('click', function() { mm.classList.toggle('hidden'); });
+                mm.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() { mm.classList.add('hidden'); });
+                });
+            }
+        }
+
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 80) {
+                    navbar.classList.add('bg-brand-navy/95', 'backdrop-blur-sm');
+                    navbar.classList.remove('bg-brand-navy');
+                } else {
+                    navbar.classList.remove('bg-brand-navy/95', 'backdrop-blur-sm');
+                    navbar.classList.add('bg-brand-navy');
+                }
+            });
+        }
+
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        const offset = 80;
+                        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        function initCrossTabUpdate() {
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'dataUpdated') {
+                    fetchData(true).then(data => {
+                        if (data) renderCareers(data);
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const data = await fetchData(false);
+            if (data) {
+                renderCareers(data);
+            } else {
+                document.body.innerHTML = `
+                    <div class="p-8 text-center">
+                        <h1 class="text-2xl font-bold text-red-600">Error loading data</h1>
+                        <p class="mt-2 text-slate-600">Please check the server connection.</p>
+                        <p class="mt-1 text-sm text-slate-500">Make sure Flask is running: <code>python app.py</code></p>
+                    </div>
+                `;
+                return;
+            }
+            initMobileMenu();
+            initNavbar();
+            initSmoothScroll();
+            initCrossTabUpdate();
+        });
+    </script>
+</body>
+</html>

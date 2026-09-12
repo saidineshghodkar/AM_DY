@@ -1,0 +1,1335 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Amruthadhara Infra | Project Estimation</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #051025;
+            --primary-dark: #071936;
+            --accent: #00b4d8;
+            --accent-dark: #0077b6;
+
+            --background: #f8fafc;
+            --white: #ffffff;
+
+            --text: #334155;
+            --muted: #64748b;
+
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 14px 7%;
+        }
+
+        .top-header {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .company-name {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .company-name span {
+            color: var(--accent);
+        }
+
+        .contact-details {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+
+            font-size: 14px;
+        }
+
+        .contact-details a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            background:
+                linear-gradient(
+                    rgba(5, 16, 37, 0.94),
+                    rgba(10, 37, 88, 0.90)
+                );
+
+            min-height: 320px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 6vw, 58px);
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 18px;
+
+            opacity: 0.95;
+
+            max-width: 650px;
+
+            margin: auto;
+        }
+
+
+        /* ==============================
+           PLAN SECTION
+        ============================== */
+
+        .plans-section {
+            padding: 65px 6%;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+        }
+
+        .plans {
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+        }
+
+
+        /* ==============================
+           PLAN CARD
+        ============================== */
+
+        .plan-card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 32px 20px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 28px
+                rgba(5, 16, 37, 0.07);
+
+            border:
+                2px solid transparent;
+
+            transition: 0.3s;
+
+            cursor: pointer;
+
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-7px);
+
+            border-color: var(--accent);
+        }
+
+        .plan-card.selected {
+            border-color: var(--accent);
+
+            background:
+                #f0fbff;
+        }
+
+        .plan-card h3 {
+            font-size: 23px;
+
+            margin-bottom: 12px;
+
+            color: var(--primary);
+        }
+
+        .price {
+            font-size: 35px;
+
+            font-weight: bold;
+
+            color: var(--accent-dark);
+
+            margin-bottom: 4px;
+        }
+
+        .per-sqft {
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+        .recommended {
+            position: absolute;
+
+            top: -13px;
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--accent-dark)
+                );
+
+            color: white;
+
+            padding: 5px 14px;
+
+            font-size: 12px;
+
+            border-radius: 50px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           ESTIMATION SECTION
+        ============================== */
+
+        .estimation-section {
+            padding: 65px 6%;
+
+            background: white;
+        }
+
+        .estimator {
+            max-width: 900px;
+
+            margin: auto;
+
+            background: var(--background);
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(5, 16, 37, 0.08);
+        }
+
+        .estimator h2 {
+            color: var(--primary);
+
+            font-size: 32px;
+
+            text-align: center;
+
+            margin-bottom: 8px;
+        }
+
+        .estimator-description {
+            text-align: center;
+
+            color: var(--muted);
+
+            margin-bottom: 35px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: var(--text);
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+
+            height: 52px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
+            padding: 0 14px;
+
+            font-size: 16px;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--accent);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(0, 180, 216, 0.10);
+        }
+
+
+        /* ==============================
+           CALCULATE BUTTON
+        ============================== */
+
+        .calculate-btn {
+            width: 100%;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent),
+                    var(--accent-dark)
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            padding: 16px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            margin-top: 5px;
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 180, 216, 0.25);
+        }
+
+        .calculate-btn:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--accent-dark),
+                    #005f8f
+                );
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 180, 216, 0.35);
+        }
+
+
+        /* ==============================
+           RESULTS
+        ============================== */
+
+        .result-box {
+            display: none;
+
+            margin-top: 30px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            border:
+                1px solid var(--border);
+
+            box-shadow:
+                0 8px 25px
+                rgba(5, 16, 37, 0.06);
+        }
+
+        .result-heading {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+                );
+
+            color: white;
+
+            padding: 18px 25px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+        .result-content {
+            padding: 25px;
+        }
+
+        .result-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 14px 0;
+
+            border-bottom:
+                1px solid #eef2f7;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: var(--muted);
+        }
+
+        .result-value {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: var(--primary);
+        }
+
+        .estimated-cost {
+            font-size: 25px;
+
+            color: var(--accent-dark);
+        }
+
+        .note {
+            background: #f0fbff;
+
+            color: #365b68;
+
+            border-left:
+                4px solid var(--accent);
+
+            padding: 14px;
+
+            margin-top: 22px;
+
+            font-size: 13px;
+
+            border-radius: 6px;
+        }
+
+
+        /* ==============================
+           CTA
+        ============================== */
+
+        .cta {
+            padding: 65px 20px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+                );
+
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 34px;
+
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            opacity: 0.9;
+
+            margin-bottom: 25px;
+        }
+
+        .cta-buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+
+            text-decoration: none;
+
+            padding: 13px 22px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .call-btn {
+            background: var(--accent);
+
+            color: white;
+        }
+
+        .email-btn {
+            background: white;
+
+            color: var(--primary);
+        }
+
+        .cta-button:hover {
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            background: #020b1a;
+
+            color: #94a3b8;
+
+            padding: 24px 20px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 1000px) {
+
+            .plans {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .top-header {
+                justify-content: center;
+
+                text-align: center;
+            }
+
+            .contact-details {
+                justify-content: center;
+
+                gap: 10px 20px;
+            }
+
+            .hero {
+                min-height: 280px;
+            }
+
+            .plans {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+
+                gap: 0;
+            }
+
+            .estimator {
+                padding: 25px 18px;
+            }
+
+            .result-row {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 5px;
+            }
+
+            .section-heading h2,
+            .estimator h2,
+            .cta h2 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     HEADER
+============================== -->
+
+<header>
+
+    <div class="top-header">
+
+        <div class="company-name">
+
+            Amruthadhara
+            <span>
+                Infra
+            </span>
+
+        </div>
+
+
+        <div class="contact-details">
+
+            <a href="tel:+919876543210">
+                ☎ +91 98765 43210
+            </a>
+
+            <a href="mailto:info@amruthadharainfra.com">
+                ✉ info@amruthadharainfra.com
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ==============================
+     HERO
+============================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Check Your
+            <span>
+                Site Estimation
+            </span>
+        </h1>
+
+        <p>
+            Enter your plot dimensions and choose a construction plan
+            to get an approximate project estimation.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     PLANS
+============================== -->
+
+<section class="plans-section">
+
+    <div class="section-heading">
+
+        <h2>
+            Construction Plans
+        </h2>
+
+        <p>
+            Choose the construction plan that suits your requirements.
+        </p>
+
+    </div>
+
+
+    <div class="plans">
+
+
+        <!-- BASIC -->
+
+        <div
+            class="plan-card"
+            onclick="selectPlan('basic')"
+        >
+
+            <h3>
+                Basic
+            </h3>
+
+            <div class="price">
+                ₹1,899
+            </div>
+
+            <div class="per-sqft">
+                per sq.ft
+            </div>
+
+        </div>
+
+
+        <!-- PREMIUM -->
+
+        <div
+            class="plan-card selected"
+            onclick="selectPlan('premium')"
+        >
+
+            <span class="recommended">
+                POPULAR
+            </span>
+
+            <h3>
+                Premium
+            </h3>
+
+            <div class="price">
+                ₹2,399
+            </div>
+
+            <div class="per-sqft">
+                per sq.ft
+            </div>
+
+        </div>
+
+
+        <!-- LUXURY -->
+
+        <div
+            class="plan-card"
+            onclick="selectPlan('luxury')"
+        >
+
+            <h3>
+                Luxury
+            </h3>
+
+            <div class="price">
+                ₹3,299
+            </div>
+
+            <div class="per-sqft">
+                per sq.ft
+            </div>
+
+        </div>
+
+
+        <!-- ULTRA LUXURY -->
+
+        <div
+            class="plan-card"
+            onclick="selectPlan('ultra')"
+        >
+
+            <h3>
+                Ultra Luxury
+            </h3>
+
+            <div class="price">
+                ₹4,999
+            </div>
+
+            <div class="per-sqft">
+                per sq.ft
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     ESTIMATION
+============================== -->
+
+<section class="estimation-section">
+
+    <div class="estimator">
+
+        <h2>
+            Check Your Site Estimation
+        </h2>
+
+        <p class="estimator-description">
+            Enter your plot dimensions and choose a construction plan.
+        </p>
+
+
+        <div class="form-grid">
+
+
+            <!-- LENGTH -->
+
+            <div class="input-group">
+
+                <label for="length">
+                    Length (in feet):
+                </label>
+
+                <input
+                    type="number"
+                    id="length"
+                    min="1"
+                    placeholder="Example: 40"
+                >
+
+            </div>
+
+
+            <!-- WIDTH -->
+
+            <div class="input-group">
+
+                <label for="width">
+                    Width (in feet):
+                </label>
+
+                <input
+                    type="number"
+                    id="width"
+                    min="1"
+                    placeholder="Example: 30"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PLAN -->
+
+        <div class="input-group">
+
+            <label for="plan">
+                Select Your Plan:
+            </label>
+
+            <select id="plan">
+
+                <option value="basic">
+                    Basic — ₹1,899 / sq.ft
+                </option>
+
+                <option
+                    value="premium"
+                    selected
+                >
+                    Premium — ₹2,399 / sq.ft
+                </option>
+
+                <option value="luxury">
+                    Luxury — ₹3,299 / sq.ft
+                </option>
+
+                <option value="ultra">
+                    Ultra Luxury — ₹4,999 / sq.ft
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            class="calculate-btn"
+            onclick="calculateEstimation()"
+        >
+
+            Calculate Estimation
+
+        </button>
+
+
+        <!-- ==============================
+             RESULT
+        ============================== -->
+
+        <div
+            class="result-box"
+            id="resultBox"
+        >
+
+            <div class="result-heading">
+                Project Estimation
+            </div>
+
+
+            <div class="result-content">
+
+
+                <div class="result-row">
+
+                    <div class="result-label">
+                        Area of the Site:
+                    </div>
+
+                    <div
+                        class="result-value"
+                        id="siteArea"
+                    >
+                        0 sq.ft
+                    </div>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <div class="result-label">
+                        Estimated Cost:
+                    </div>
+
+                    <div
+                        class="result-value estimated-cost"
+                        id="estimatedCost"
+                    >
+                        ₹0
+                    </div>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <div class="result-label">
+                        Plan Rate:
+                    </div>
+
+                    <div
+                        class="result-value"
+                        id="planRate"
+                    >
+                        ₹2,399 / sq.ft
+                    </div>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <div class="result-label">
+                        Selected Plan:
+                    </div>
+
+                    <div
+                        class="result-value"
+                        id="selectedPlan"
+                    >
+                        Premium
+                    </div>
+
+                </div>
+
+
+                <div class="note">
+
+                    <strong>
+                        Note:
+                    </strong>
+
+                    This is an approximate project estimation based
+                    on the site dimensions and selected construction
+                    package. Final quotation may vary depending on
+                    design, specifications, location, materials and
+                    additional requirements.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     CTA
+============================== -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Build Your Dream Home?
+    </h2>
+
+    <p>
+        Contact Amruthadhara Infra for detailed planning and project quotation.
+    </p>
+
+
+    <div class="cta-buttons">
+
+        <a
+            class="cta-button call-btn"
+            href="tel:+919876543210"
+        >
+            ☎ Call +91 98765 43210
+        </a>
+
+
+        <a
+            class="cta-button email-btn"
+            href="mailto:info@amruthadharainfra.com"
+        >
+            ✉ Send Email
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ==============================
+     FOOTER
+============================== -->
+
+<footer>
+
+    © 2026
+
+    <strong>
+        Amruthadhara Infra
+    </strong>
+
+    — Quality Construction, Trusted Service
+
+</footer>
+
+
+<!-- ==============================
+     JAVASCRIPT
+============================== -->
+
+<script>
+
+
+    /* ==============================
+       PLAN PRICES
+    ============================== */
+
+    const plans = {
+
+        basic: {
+            name: "Basic",
+            price: 1899
+        },
+
+        premium: {
+            name: "Premium",
+            price: 2399
+        },
+
+        luxury: {
+            name: "Luxury",
+            price: 3299
+        },
+
+        ultra: {
+            name: "Ultra Luxury",
+            price: 4999
+        }
+
+    };
+
+
+    /* ==============================
+       SELECT PLAN
+    ============================== */
+
+    function selectPlan(planName) {
+
+        document.getElementById("plan").value =
+            planName;
+
+
+        const cards =
+            document.querySelectorAll(".plan-card");
+
+
+        cards.forEach(
+            function(card) {
+
+                card.classList.remove("selected");
+
+            }
+        );
+
+
+        const planIndex = {
+
+            basic: 0,
+            premium: 1,
+            luxury: 2,
+            ultra: 3
+
+        };
+
+
+        cards[
+            planIndex[planName]
+        ].classList.add("selected");
+
+    }
+
+
+    /* ==============================
+       CALCULATE
+    ============================== */
+
+    function calculateEstimation() {
+
+        const length =
+            parseFloat(
+                document.getElementById("length").value
+            );
+
+
+        const width =
+            parseFloat(
+                document.getElementById("width").value
+            );
+
+
+        const selectedPlan =
+            document.getElementById("plan").value;
+
+
+        /* VALIDATION */
+
+        if (
+            isNaN(length) ||
+            isNaN(width) ||
+            length <= 0 ||
+            width <= 0
+        ) {
+
+            alert(
+                "Please enter valid site length and width."
+            );
+
+            return;
+
+        }
+
+
+        /* PLAN */
+
+        const plan =
+            plans[selectedPlan];
+
+
+        /* AREA */
+
+        const area =
+            length * width;
+
+
+        /* COST */
+
+        const totalCost =
+            area * plan.price;
+
+
+        /* AREA DISPLAY */
+
+        document.getElementById(
+            "siteArea"
+        ).innerText =
+            area.toLocaleString("en-IN")
+            + " sq.ft";
+
+
+        /* COST DISPLAY */
+
+        document.getElementById(
+            "estimatedCost"
+        ).innerText =
+            "₹" +
+            totalCost.toLocaleString("en-IN");
+
+
+        /* RATE DISPLAY */
+
+        document.getElementById(
+            "planRate"
+        ).innerText =
+            "₹" +
+            plan.price.toLocaleString("en-IN") +
+            " / sq.ft";
+
+
+        /* PLAN DISPLAY */
+
+        document.getElementById(
+            "selectedPlan"
+        ).innerText =
+            plan.name;
+
+
+        /* SHOW RESULT */
+
+        document.getElementById(
+            "resultBox"
+        ).style.display =
+            "block";
+
+
+        /* SCROLL */
+
+        document.getElementById(
+            "resultBox"
+        ).scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "nearest"
+
+        });
+
+    }
+
+
+    /* ==============================
+       PLAN DROPDOWN SYNC
+    ============================== */
+
+    document.getElementById("plan")
+        .addEventListener(
+            "change",
+            function() {
+
+                selectPlan(this.value);
+
+            }
+        );
+
+
+</script>
+
+
+</body>
+</html>

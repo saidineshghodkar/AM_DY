@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us | Amruthadhara Infra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#051025',
+                            blue: '#0a2558',
+                            cyan: '#00b4d8',
+                            light: '#e0f2fe',
+                            silver: '#e2e8f0',
+                            metal: '#64748b',
+                            chrome: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Montserrat', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #051025; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00b4d8; }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: #00b4d8; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e9edf2;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .contact-info-item:hover {
+            border-color: #00b4d8;
+            background: #f0f9ff;
+        }
+        .contact-info-item .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: #00b4d8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .contact-info-item .text { flex: 1; }
+        .contact-info-item .text .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .contact-info-item .text .value { font-weight: 500; color: #0f172a; }
+        .form-input {
+            width: 100%;
+            border: 1px solid #d1d9e6;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        .map-placeholder {
+            background: #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 240px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 240px;
+            border: 0;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 14px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(-120%);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            max-width: 90vw;
+        }
+        .toast.show { transform: translateY(0); }
+        .toast i { font-size: 1.2rem; color: #00b4d8; }
+        .floating-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+            font-size: 1.4rem;
+        }
+        .floating-btn:hover { transform: scale(1.1); }
+        .floating-btn.whatsapp { background: #25d366; }
+        .floating-btn.phone { background: linear-gradient(135deg, #1e3a8a, #1e40af); }
+        @media (max-width: 640px) {
+            .contact-info-item { padding: 12px 14px; }
+            .contact-info-item .icon { width: 38px; height: 38px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="text-slate-700 bg-slate-50 antialiased selection:bg-brand-cyan selection:text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-brand-navy border-b border-white/5 shadow-lg">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold flex items-center gap-3">
+                <img id="nav-logo" src="" alt="Logo" class="h-10 w-auto object-contain hidden" />
+                <div class="flex flex-col">
+                    <span class="text-lg md:text-2xl font-display tracking-tight text-white transition-colors">Amruthadhara</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.3em] text-brand-cyan uppercase font-light transition-colors">Infra</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="/" class="nav-link text-brand-cyan hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white focus:outline-none p-2 hover:text-brand-cyan transition-colors z-50 relative" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-navy border-t border-white/10 w-full shadow-2xl">
+            <div class="flex flex-col px-6 py-6 space-y-4 text-center">
+                <a href="/" class="nav-link text-brand-cyan block py-3 border-b border-white/5">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-brand-cyan block py-3">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Buttons -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <a id="btn-whatsapp" href="#" target="_blank" class="floating-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a id="btn-phone" href="#" class="floating-btn phone"><i class="fa-solid fa-phone"></i></a>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"><i class="fa-regular fa-circle-check"></i><span id="toast-msg">Message sent!</span></div>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-16 bg-gradient-to-b from-brand-navy to-brand-blue text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-4">Contact Us</h1>
+            <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto">We'd love to hear from you. Reach out for inquiries, collaborations, or to discuss your next project.</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-16 md:py-20 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Left: Contact Info -->
+                <div>
+                    <h2 class="text-3xl font-bold text-brand-navy font-display mb-6">Get in Touch</h2>
+                    <p class="text-slate-500 mb-8">We're here to answer your questions and discuss how we can bring your vision to life.</p>
+                    <div class="space-y-4">
+                        <div class="contact-info-item">
+                            <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="text">
+                                <div class="label">Phone</div>
+                                <div class="value" id="contact-phone">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="text">
+                                <div class="label">WhatsApp</div>
+                                <div class="value" id="contact-whatsapp">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="text">
+                                <div class="label">Email</div>
+                                <div class="value" id="contact-email">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="text">
+                                <div class="label">Office</div>
+                                <div class="value" id="contact-address">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex gap-4">
+                        <a href="#" id="social-fb" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-cyan hover:text-white hover:border-brand-cyan transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="social-insta" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-cyan hover:text-white hover:border-brand-cyan transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" id="social-linkedin" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-cyan hover:text-white hover:border-brand-cyan transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" id="social-youtube" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-cyan hover:text-white hover:border-brand-cyan transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" id="social-twitter" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-brand-cyan hover:text-white hover:border-brand-cyan transition"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div>
+                    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200">
+                        <h3 class="text-2xl font-bold text-brand-navy font-display mb-2">Send a Message</h3>
+                        <p class="text-slate-500 text-sm mb-6">We'll prepare your message for email or WhatsApp so you can send it directly.</p>
+                        <form id="contact-form" class="space-y-5">
+                            <div>
+                                <label class="form-label" for="form-name">Full Name *</label>
+                                <input type="text" id="form-name" required class="form-input" placeholder="Your name" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="form-email">Email Address *</label>
+                                <input type="email" id="form-email" required class="form-input" placeholder="you@example.com" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="form-phone">Phone Number</label>
+                                <input type="tel" id="form-phone" class="form-input" placeholder="+91 98765 43210" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="form-subject">Subject</label>
+                                <input type="text" id="form-subject" class="form-input" placeholder="How can we help?" />
+                            </div>
+                            <div>
+                                <label class="form-label" for="form-message">Message *</label>
+                                <textarea id="form-message" rows="4" required class="form-input" placeholder="Tell us about your project or inquiry..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-brand-cyan text-white font-bold py-3 rounded-lg hover:bg-brand-blue transition shadow-lg shadow-brand-cyan/20">
+                                <i class="fa-regular fa-paper-plane mr-2"></i>Prepare Message
+                            </button>
+                        </form>
+                        <div id="form-success" class="hidden text-center py-6">
+                            <i class="fa-regular fa-circle-check text-5xl text-green-500 mb-4"></i>
+                            <h4 class="text-xl font-bold text-brand-navy">Message Ready to Send</h4>
+                            <p class="text-slate-500 text-sm mt-2">Choose email or WhatsApp below to send your message instantly.</p>
+                            <div class="mt-4 flex flex-wrap justify-center gap-3">
+                                <a id="form-email-link" href="#" class="inline-flex items-center gap-2 bg-brand-navy text-white px-5 py-2 rounded-lg hover:bg-brand-blue transition">
+                                    <i class="fa-regular fa-envelope"></i> Email Message
+                                </a>
+                                <a id="form-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-500 transition">
+                                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Message
+                                </a>
+                            </div>
+                            <button id="form-reset" type="button" class="mt-4 bg-brand-cyan text-white px-6 py-2 rounded-lg hover:bg-brand-blue transition">Start Over</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-brand-navy font-display mb-4 text-center">Find Us</h3>
+                <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full mb-6"></div>
+                <div class="map-placeholder">
+                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1312.5684421586072!2d77.646409581206!3d14.612598427571648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb14ba9b6c5e229%3A0x1fd23ad7ec921762!2sAtal%20Incubation%20Centre%20-%20Sri%20Krishnadevaraya%20University%20(AIC-SKU)!5e1!3m2!1sen!2sin!4v1789232130166!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-brand-navy text-white relative">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold font-display mb-4">Let's Build Something Together</h2>
+            <p class="text-slate-300 max-w-xl mx-auto mb-8">Whether you have a project in mind or just want to learn more, we're here to help.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="tel:+919347051097" class="bg-brand-cyan hover:bg-brand-blue text-white px-8 py-3 rounded-full font-bold transition shadow-lg shadow-brand-cyan/20">
+                    <i class="fa-solid fa-phone mr-2"></i> Call Now
+                </a>
+                <a href="mailto:info@amruthadharainfra.com" class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-full font-bold transition border border-white/20">
+                    <i class="fa-regular fa-envelope mr-2"></i> Email Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-white pt-16 pb-8 border-t-4 border-brand-cyan">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold font-display mb-4">Amruthadhara Infra</h3>
+                    <p class="text-slate-400 text-sm mb-6">Delivering excellence in civil engineering and sustainable construction.</p>
+                    <div class="flex gap-4">
+                        <a href="#" id="footer-fb" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="footer-insta" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" id="footer-linkedin" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" id="footer-youtube" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" id="footer-twitter" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="/" class="hover:text-brand-cyan transition text-brand-cyan">Home</a></li>
+                        <li><a href="/aboutus" class="hover:text-brand-cyan transition">About Us</a></li>
+                        <li><a href="/services" class="hover:text-brand-cyan transition">Services</a></li>
+                        <li><a href="/gallery" class="hover:text-brand-cyan transition">Gallery</a></li>
+                        <li><a href="/projects" class="hover:text-brand-cyan transition">Projects</a></li>
+                        <li><a href="/careers" class="hover:text-brand-cyan transition">Careers</a></li>
+                        <li><a href="/contact" class="hover:text-brand-cyan transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-brand-cyan"></i> <span id="footer-phone"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-brands fa-whatsapp text-brand-cyan"></i> <span id="footer-whatsapp"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand-cyan"></i> <span id="footer-email"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-brand-cyan"></i> <span id="footer-address"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-slate-500 text-xs border-t border-white/10 pt-8">
+                &copy; 2026 Amruthadhara Infra. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function fetchData(force = false) {
+            try {
+                const url = '/api/data' + (force ? '?_=' + Date.now() : '');
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Network error');
+                return await res.json();
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                alert('Could not load content from server. Ensure Flask is running.');
+                return null;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const data = await fetchData(false);
+            if (!data) {
+                document.body.innerHTML = `
+                    <div class="p-8 text-center">
+                        <h1 class="text-2xl font-bold text-red-600">Error loading data</h1>
+                        <p class="mt-2 text-slate-600">Please check the server connection.</p>
+                        <p class="mt-1 text-sm text-slate-500">Make sure Flask is running: <code>python app.py</code></p>
+                    </div>
+                `;
+                return;
+            }
+
+            const contact = data.contact || {};
+            const social = data.social || {};
+
+            document.getElementById('contact-phone').textContent = '+91 ' + (contact.phone || '');
+            document.getElementById('contact-whatsapp').textContent = '+91 ' + (contact.whatsapp || '');
+            document.getElementById('contact-email').textContent = contact.email || '';
+            document.getElementById('contact-address').textContent = contact.address || '';
+
+            document.getElementById('footer-phone').textContent = '+91 ' + (contact.phone || '');
+            document.getElementById('footer-whatsapp').textContent = '+91 ' + (contact.whatsapp || '');
+            document.getElementById('footer-email').textContent = contact.email || '';
+            document.getElementById('footer-address').textContent = contact.address || '';
+
+            document.getElementById('btn-whatsapp').href = 'https://wa.me/91' + (contact.whatsapp || '');
+            document.getElementById('btn-phone').href = 'tel:+91' + (contact.phone || '');
+
+            const socialMap = {
+                'footer-youtube': social.youtube,
+                'footer-twitter': social.twitter,
+                'footer-fb': social.facebook,
+                'footer-insta': social.instagram,
+                'footer-linkedin': social.linkedin,
+                'social-youtube': social.youtube,
+                'social-twitter': social.twitter,
+                'social-fb': social.facebook,
+                'social-insta': social.instagram,
+                'social-linkedin': social.linkedin
+            };
+            Object.keys(socialMap).forEach(id => {
+                const el = document.getElementById(id);
+                if (el && socialMap[id]) el.href = socialMap[id];
+            });
+
+            const logo = document.getElementById('nav-logo');
+            if (data.logo_url) {
+                logo.src = '/static/images/' + data.logo_url;
+                logo.classList.remove('hidden');
+            }
+
+            const form = document.getElementById('contact-form');
+            const success = document.getElementById('form-success');
+            const resetBtn = document.getElementById('form-reset');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('form-name').value.trim();
+                const email = document.getElementById('form-email').value.trim();
+                const phone = document.getElementById('form-phone').value.trim();
+                const subject = document.getElementById('form-subject').value.trim();
+                const message = document.getElementById('form-message').value.trim();
+
+                if (!name || !email || !message) {
+                    showToast('Please fill in all required fields.', 'fa-regular fa-circle-exclamation');
+                    return;
+                }
+
+                const contactEmail = contact.email || 'info@amruthadharainfra.com';
+                const whatsappNumber = contact.whatsapp || '';
+                const finalSubject = subject || `Website Inquiry from ${name}`;
+                const bodyLines = [
+                    'Hello Amruthadhara Infra,',
+                    '',
+                    'I would like to get in touch regarding the following:',
+                    '',
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Phone: ${phone || 'Not provided'}`,
+                    `Subject: ${finalSubject}`,
+                    '',
+                    'Message:',
+                    message
+                ];
+                const emailLink = `mailto:${contactEmail}?subject=${encodeURIComponent(finalSubject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+                const whatsappLink = `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(bodyLines.join('\n'))}`;
+                const emailLinkEl = document.getElementById('form-email-link');
+                const whatsappLinkEl = document.getElementById('form-whatsapp-link');
+
+                if (emailLinkEl) emailLinkEl.href = emailLink;
+                if (whatsappLinkEl) {
+                    if (whatsappNumber) {
+                        whatsappLinkEl.href = whatsappLink;
+                        whatsappLinkEl.classList.remove('hidden');
+                    } else {
+                        whatsappLinkEl.classList.add('hidden');
+                    }
+                }
+
+                form.classList.add('hidden');
+                success.classList.remove('hidden');
+                showToast('Message prepared. Choose email or WhatsApp to send it.', 'fa-regular fa-circle-check');
+            });
+
+            resetBtn.addEventListener('click', function() {
+                form.reset();
+                form.classList.remove('hidden');
+                success.classList.add('hidden');
+            });
+
+            function showToast(msg, icon = 'fa-regular fa-circle-check') {
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toast-msg');
+                toastMsg.textContent = msg;
+                toast.querySelector('i').className = icon;
+                toast.classList.add('show');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+
+            // Mobile menu
+            const mmBtn = document.getElementById('mobile-menu-btn');
+            const mm = document.getElementById('mobile-menu');
+            if (mmBtn && mm) {
+                mmBtn.addEventListener('click', function() { mm.classList.toggle('hidden'); });
+                mm.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() { mm.classList.add('hidden'); });
+                });
+            }
+
+            // Navbar scroll
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 80) {
+                        navbar.classList.add('bg-brand-navy/95', 'backdrop-blur-sm');
+                        navbar.classList.remove('bg-brand-navy');
+                    } else {
+                        navbar.classList.remove('bg-brand-navy/95', 'backdrop-blur-sm');
+                        navbar.classList.add('bg-brand-navy');
+                    }
+                });
+            }
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        const offset = 80;
+                        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Cross-tab update listener
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'dataUpdated') {
+                    fetchData(true).then(newData => {
+                        if (newData) {
+                            const c = newData.contact || {};
+                            document.getElementById('contact-phone').textContent = '+91 ' + (c.phone || '');
+                            document.getElementById('contact-whatsapp').textContent = '+91 ' + (c.whatsapp || '');
+                            document.getElementById('contact-email').textContent = c.email || '';
+                            document.getElementById('contact-address').textContent = c.address || '';
+                            document.getElementById('btn-whatsapp').href = 'https://wa.me/91' + (c.whatsapp || '');
+                            document.getElementById('btn-phone').href = 'tel:+91' + (c.phone || '');
+                            // update logo
+                            const logoEl = document.getElementById('nav-logo');
+                            if (newData.logo_url) {
+                                logoEl.src = '/static/images/' + newData.logo_url;
+                                logoEl.classList.remove('hidden');
+                            } else {
+                                logoEl.classList.add('hidden');
+                            }
+                            // update social
+                            const s = newData.social || {};
+                            Object.keys(socialMap).forEach(id => {
+                                const el = document.getElementById(id);
+                                if (el && s[id.replace(/^(footer-|social-)/, '')]) el.href = s[id.replace(/^(footer-|social-)/, '')];
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

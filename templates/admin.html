@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel – Amruthadhara Infra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#051025', blue: '#0a2558', cyan: '#00b4d8' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f4f9; font-family: 'Inter', system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #e9edf2; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00b4d8; }
+        .admin-header { background: #051025; border-bottom: 3px solid #00b4d8; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(5, 16, 37, 0.3); }
+        .admin-header h1 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem; color: #fff; letter-spacing: -0.02em; }
+        .admin-header .subtitle { color: #94a3b8; font-size: 0.85rem; font-weight: 400; }
+        .admin-header .brand-cyan { color: #00b4d8; }
+        .form-section { background: #ffffff; border-radius: 16px; padding: 1.75rem 1.75rem 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04); border: 1px solid #e8edf4; transition: box-shadow 0.2s; }
+        .form-section:hover { box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06); }
+        .form-section h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #0a2558; margin: 0 0 1.25rem 0; padding-bottom: 0.6rem; border-bottom: 2px solid #00b4d8; display: flex; align-items: center; gap: 0.6rem; }
+        .form-section h3 i { color: #00b4d8; font-size: 1.2rem; width: 1.6rem; text-align: center; }
+        .sub-section-title { font-weight: 600; color: #0a2558; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0 0.5rem 0; }
+        .sub-section-title i { color: #00b4d8; width: 1.4rem; text-align: center; }
+        label { display: block; font-weight: 500; color: #334155; margin-bottom: 0.2rem; letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.7rem; }
+        input, textarea, select { width: 100%; border: 1px solid #dce2ec; border-radius: 10px; padding: 0.6rem 0.85rem; font-size: 0.9rem; background: #fafcfe; transition: border 0.2s, box-shadow 0.2s, background 0.2s; font-family: 'Inter', sans-serif; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #00b4d8; box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.10); background: #ffffff; }
+        textarea { resize: vertical; min-height: 60px; }
+        .btn-save { background: linear-gradient(135deg, #00b4d8, #0077b6); color: #fff; font-weight: 600; padding: 0.7rem 2.2rem; border: none; border-radius: 40px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 16px rgba(0, 180, 216, 0.35); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0, 180, 216, 0.45); }
+        .btn-back { background: #eef2f7; color: #1e293b; padding: 0.45rem 1.4rem; border-radius: 40px; text-decoration: none; font-weight: 500; font-size: 0.85rem; transition: 0.2s; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .btn-back:hover { background: #dce3ec; }
+        .logout-link { color: #94a3b8; font-size: 0.8rem; text-decoration: none; border: 1px solid #334155; padding: 0.3rem 1rem; border-radius: 30px; transition: 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .logout-link:hover { background: #00b4d8; color: #fff; border-color: #00b4d8; }
+        .add-btn { background: #00b4d8; color: #fff; border: none; border-radius: 30px; padding: 0.4rem 1.2rem; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.25rem; }
+        .add-btn:hover { background: #0077b6; transform: translateY(-1px); }
+        .remove-btn { background: #fee2e2; color: #b91c1c; border: none; border-radius: 8px; padding: 0.25rem 0.8rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 0.3rem; }
+        .remove-btn:hover { background: #fecaca; }
+        .upload-btn { background: #0a2558; color: #fff; border: none; border-radius: 8px; padding: 0.25rem 1rem; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .upload-btn:hover { background: #00b4d8; }
+        .array-item { background: #f8fafd; border-radius: 12px; padding: 1.25rem 1.25rem 1rem; margin-bottom: 1rem; border: 1px solid #e4eaf2; transition: border-color 0.2s, box-shadow 0.2s; }
+        .array-item:hover { border-color: #cbd5e1; }
+        .array-item .grid { align-items: start; }
+        .pricing-card-admin { background: #f8fafd; border: 1px solid #e4eaf2; border-radius: 14px; padding: 1.25rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; transition: border-color 0.2s; }
+        .pricing-card-admin:hover { border-color: #00b4d8; }
+        .pricing-card-admin .remove-btn { align-self: flex-end; }
+        .image-preview { max-width: 80px; max-height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #dce2ec; margin-top: 4px; }
+        .file-input-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+        .file-input-wrap input[type="file"] { width: auto; padding: 0.3rem 0.2rem; background: transparent; border: none; font-size: 0.75rem; }
+        .file-input-wrap input[type="file"]::file-selector-button { background: #eef2f7; border: 1px solid #dce2ec; border-radius: 6px; padding: 0.2rem 0.8rem; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
+        .file-input-wrap input[type="file"]::file-selector-button:hover { background: #dce3ec; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: #0a2558; color: #fff; padding: 14px 28px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18); border-left: 5px solid #00b4d8; transform: translateY(24px); opacity: 0; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; z-index: 9999; font-size: 0.9rem; font-weight: 500; max-width: 420px; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { border-left-color: #ef4444; }
+        @media (max-width: 768px) {
+            .admin-header .flex { flex-wrap: wrap; gap: 0.5rem; }
+            .admin-header h1 { font-size: 1.2rem; }
+            .form-section { padding: 1.25rem; }
+            .file-input-wrap { flex-direction: column; align-items: stretch; }
+            .file-input-wrap input[type="file"] { width: 100%; }
+            .array-item .grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="admin-header">
+        <div class="max-w-6xl mx-auto px-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h1><i class="fa-solid fa-user-cog mr-2 brand-cyan"></i>Admin Panel</h1>
+                <p class="subtitle">Manage all content for Amruthadhara Infra</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/" class="btn-back"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Site</a>
+                <a href="/logout" class="logout-link"><i class="fa-solid fa-sign-out-alt mr-1"></i> Logout</a>
+                <button id="save-all" class="btn-save"><i class="fa-regular fa-floppy-disk mr-2"></i>Save All</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 mt-4">
+
+        <div id="loading" class="text-center py-16 text-slate-500">
+            <i class="fa-solid fa-spinner fa-spin text-3xl mb-3 block" style="color:#00b4d8;"></i>
+            <span class="text-sm font-medium">Loading data…</span>
+        </div>
+
+        <div id="admin-form" class="hidden">
+
+            <!-- LOGO -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-image"></i> Logo</h3>
+                <div class="file-input-wrap">
+                    <input type="file" id="logo-upload" accept="image/*" />
+                    <button class="upload-btn" onclick="uploadImage('logo-upload', 'logo_url', 'logo_preview', 'logo_url_display')">Upload</button>
+                    <span class="text-sm text-slate-500">File: <span id="logo_url_display" class="font-mono text-xs"></span></span>
+                </div>
+                <input type="hidden" id="logo_url" />
+                <img id="logo_preview" class="image-preview mt-2" style="display:none;" />
+            </section>
+
+            <!-- HERO -->
+            <section class="form-section" id="hero-section">
+                <h3><i class="fa-regular fa-sliders"></i> Hero Slides</h3>
+                <div id="hero-container"></div>
+                <button class="add-btn" onclick="addHero()"><i class="fa-solid fa-plus mr-1"></i>Add Slide</button>
+            </section>
+
+            <!-- WHAT WE DO -->
+            <section class="form-section" id="wwd-section">
+                <h3><i class="fa-regular fa-list"></i> What We Do</h3>
+                <div id="wwd-container"></div>
+                <button class="add-btn" onclick="addWWD()"><i class="fa-solid fa-plus mr-1"></i>Add Item</button>
+            </section>
+
+            <!-- SPECIALIZED -->
+            <section class="form-section" id="spec-section">
+                <h3><i class="fa-regular fa-star"></i> Specialized In</h3>
+                <div id="spec-container"></div>
+                <button class="add-btn" onclick="addSpec()"><i class="fa-solid fa-plus mr-1"></i>Add Item</button>
+            </section>
+
+            <!-- TESTIMONIALS -->
+            <section class="form-section" id="test-section">
+                <h3><i class="fa-regular fa-comment"></i> Testimonials</h3>
+                <div id="test-container"></div>
+                <button class="add-btn" onclick="addTest()"><i class="fa-solid fa-plus mr-1"></i>Add Testimonial</button>
+            </section>
+
+            <!-- VISION -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-eye"></i> Vision</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label>Title</label><input type="text" id="vision_title" /></div>
+                    <div><label>Text</label><textarea id="vision_text" rows="3"></textarea></div>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-address-card"></i> Contact</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label>Phone</label><input type="text" id="contact_phone" /></div>
+                    <div><label>WhatsApp</label><input type="text" id="contact_whatsapp" /></div>
+                    <div><label>Email</label><input type="email" id="contact_email" /></div>
+                    <div><label>Address</label><input type="text" id="contact_address" /></div>
+                </div>
+            </section>
+
+            <!-- SOCIAL -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-share-from-square"></i> Social Links</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label>YouTube</label><input type="url" id="social_youtube" placeholder="https://..." /></div>
+                    <div><label>Twitter / X</label><input type="url" id="social_twitter" placeholder="https://..." /></div>
+                    <div><label>Facebook</label><input type="url" id="social_facebook" placeholder="https://..." /></div>
+                    <div><label>Instagram</label><input type="url" id="social_instagram" placeholder="https://..." /></div>
+                    <div><label>LinkedIn</label><input type="url" id="social_linkedin" placeholder="https://..." /></div>
+                </div>
+            </section>
+
+            <!-- PRICING -->
+            <section class="form-section" id="pricing-section">
+                <h3><i class="fa-regular fa-tags"></i> Pricing</h3>
+                <div id="pricing-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+                <button class="add-btn mt-3" onclick="addPricing()"><i class="fa-solid fa-plus mr-1"></i>Add Pricing Tier</button>
+            </section>
+
+            <!-- PARALLAX -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-image"></i> Parallax Image</h3>
+                <div class="file-input-wrap">
+                    <input type="file" id="parallax-upload" accept="image/*" />
+                    <button class="upload-btn" onclick="uploadImage('parallax-upload', 'parallax_image', 'parallax_preview', 'parallax_image_display')">Upload</button>
+                    <span class="text-sm text-slate-500">File: <span id="parallax_image_display" class="font-mono text-xs"></span></span>
+                </div>
+                <input type="hidden" id="parallax_image" />
+                <img id="parallax_preview" class="image-preview mt-2" style="display:none;" />
+            </section>
+
+            <!-- ABOUT -->
+            <section class="form-section">
+                <h3><i class="fa-regular fa-circle-info"></i> About Us</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div><label>What We Do Text</label><textarea id="about_what" rows="3"></textarea></div>
+                    <div><label>Mission</label><textarea id="about_mission" rows="3"></textarea></div>
+                    <div><label>Vision</label><textarea id="about_vision" rows="3"></textarea></div>
+                </div>
+            </section>
+
+            <!-- FOUNDERS -->
+            <section class="form-section" id="founders-section">
+                <h3><i class="fa-regular fa-user-tie"></i> Our Founders</h3>
+                <p class="text-sm text-slate-500 -mt-2 mb-4">Add the visionaries who built the company. Upload images locally.</p>
+                <div id="founders-container"></div>
+                <button class="add-btn" onclick="addFounder()"><i class="fa-solid fa-plus mr-1"></i>Add Founder</button>
+            </section>
+
+            <!-- SUPPORTERS -->
+            <section class="form-section" id="supporters-section">
+                <h3><i class="fa-regular fa-handshake"></i> Our Supporters</h3>
+                <p class="text-sm text-slate-500 -mt-2 mb-4">Partners, allies, and key supporters. Upload images locally.</p>
+                <div id="supporters-container"></div>
+                <button class="add-btn" onclick="addSupporter()"><i class="fa-solid fa-plus mr-1"></i>Add Supporter</button>
+            </section>
+
+            <!-- ACHIEVEMENTS -->
+            <section class="form-section" id="achievement-section">
+                <h3><i class="fa-regular fa-trophy"></i> Achievements</h3>
+                <div id="achievement-container"></div>
+                <button class="add-btn" onclick="addAchievement()"><i class="fa-solid fa-plus mr-1"></i>Add Achievement</button>
+            </section>
+
+            <!-- CAREERS -->
+            <section class="form-section" id="careers-section">
+                <h3><i class="fa-regular fa-briefcase"></i> Careers</h3>
+                <div class="mb-4">
+                    <h4 class="sub-section-title"><i class="fa-regular fa-briefcase"></i> Job Openings</h4>
+                    <div id="jobs-container"></div>
+                    <button class="add-btn" onclick="addJob()"><i class="fa-solid fa-plus mr-1"></i>Add Job</button>
+                </div>
+                <div>
+                    <h4 class="sub-section-title"><i class="fa-regular fa-graduation-cap"></i> Internships</h4>
+                    <div id="internships-container"></div>
+                    <button class="add-btn" onclick="addInternship()"><i class="fa-solid fa-plus mr-1"></i>Add Internship</button>
+                </div>
+            </section>
+
+            <!-- GALLERY -->
+            <section class="form-section" id="gallery-section">
+                <h3><i class="fa-regular fa-images"></i> Gallery</h3>
+                <div id="gallery-container"></div>
+                <button class="add-btn" onclick="addGalleryImage()"><i class="fa-solid fa-plus mr-1"></i>Add Image</button>
+            </section>
+
+            <!-- PROJECTS -->
+            <section class="form-section" id="projects-section">
+                <h3><i class="fa-regular fa-folder-tree"></i> Projects</h3>
+                <div class="mb-4">
+                    <h4 class="sub-section-title"><i class="fa-regular fa-clock-rotate-left"></i> Past Projects</h4>
+                    <div id="past-projects-container"></div>
+                    <button class="add-btn" onclick="addProject('past')"><i class="fa-solid fa-plus mr-1"></i>Add Past Project</button>
+                </div>
+                <div class="mb-4">
+                    <h4 class="sub-section-title"><i class="fa-regular fa-clock"></i> Present Projects</h4>
+                    <div id="present-projects-container"></div>
+                    <button class="add-btn" onclick="addProject('present')"><i class="fa-solid fa-plus mr-1"></i>Add Present Project</button>
+                </div>
+                <div>
+                    <h4 class="sub-section-title"><i class="fa-regular fa-calendar-plus"></i> Upcoming Projects</h4>
+                    <div id="upcoming-projects-container"></div>
+                    <button class="add-btn" onclick="addProject('upcoming')"><i class="fa-solid fa-plus mr-1"></i>Add Upcoming Project</button>
+                </div>
+            </section>
+
+            <div class="text-center mt-8 pb-8">
+                <button id="save-all-bottom" class="btn-save text-base px-10 py-3"><i class="fa-regular fa-floppy-disk mr-3"></i>Save All Changes</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.classList.add('show');
+            clearTimeout(toast._hide);
+            toast._hide = setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+
+        // Upload for top-level fields (logo, parallax)
+        async function uploadImage(inputId, targetField, previewId, displayId) {
+            const fileInput = document.getElementById(inputId);
+            const file = fileInput.files[0];
+            if (!file) { showToast('Please select a file first.', true); return; }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Upload failed');
+                const result = await res.json();
+                if (result.filename) {
+                    document.getElementById(targetField).value = result.filename;
+                    document.getElementById(displayId).textContent = result.filename;
+                    const preview = document.getElementById(previewId);
+                    preview.src = '/static/images/' + result.filename;
+                    preview.style.display = 'block';
+                    showToast('✅ Image uploaded successfully!');
+                } else {
+                    showToast('Error: ' + (result.error || 'Unknown'), true);
+                }
+            } catch (err) {
+                showToast('Upload error: ' + err.message, true);
+            }
+        }
+
+        // Generic upload for array items (founders, supporters, achievements, projects)
+        // Stores the full path `/static/images/<file>` in the hidden input so it displays directly.
+        async function uploadItemImage(btn, hiddenClass, nameClass, previewClass) {
+            const item = btn.closest('.array-item');
+            if (!item) return;
+            const fileInput = item.querySelector('input[type="file"]');
+            const file = fileInput.files[0];
+            if (!file) { showToast('Please select a file first.', true); return; }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Upload failed');
+                const result = await res.json();
+                if (result.filename) {
+                    const url = '/static/images/' + result.filename;
+                    item.querySelector('.' + hiddenClass).value = url;
+                    const nameSpan = item.querySelector('.' + nameClass);
+                    if (nameSpan) nameSpan.textContent = result.filename;
+                    const preview = item.querySelector('.' + previewClass);
+                    if (preview) {
+                        preview.src = url;
+                        preview.style.display = 'block';
+                    }
+                    showToast('✅ Image uploaded!');
+                } else {
+                    showToast('Error: ' + (result.error || 'Unknown'), true);
+                }
+            } catch (err) {
+                showToast('Upload error: ' + err.message, true);
+            }
+        }
+
+        function renderArray(type, items, templateFn, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = templateFn(item, index);
+                container.appendChild(div.firstElementChild);
+            });
+        }
+
+        function removeItem(btn, type) {
+            const item = btn.closest('.array-item');
+            if (item) item.remove();
+        }
+
+        function collectFormData() {
+            const data = {};
+            data.logo_url = document.getElementById('logo_url').value;
+
+            data.hero = [];
+            document.querySelectorAll('#hero-container .array-item').forEach(el => {
+                const image = el.querySelector('.hero-image').value;
+                const title = el.querySelector('.hero-title').value;
+                const subtitle = el.querySelector('.hero-subtitle').value;
+                if (image || title || subtitle) data.hero.push({ image, title, subtitle });
+            });
+
+            data.what_we_do = [];
+            document.querySelectorAll('#wwd-container .array-item').forEach(el => {
+                const icon = el.querySelector('.wwd-icon').value;
+                const title = el.querySelector('.wwd-title').value;
+                const description = el.querySelector('.wwd-desc').value;
+                if (icon || title || description) data.what_we_do.push({ icon, title, description });
+            });
+
+            data.specialized_in = [];
+            document.querySelectorAll('#spec-container .array-item').forEach(el => {
+                const icon = el.querySelector('.spec-icon').value;
+                const title = el.querySelector('.spec-title').value;
+                const description = el.querySelector('.spec-desc').value;
+                if (icon || title || description) data.specialized_in.push({ icon, title, description });
+            });
+
+            data.testimonials = [];
+            document.querySelectorAll('#test-container .array-item').forEach(el => {
+                const name = el.querySelector('.test-name').value;
+                const feedback = el.querySelector('.test-feedback').value;
+                const project = el.querySelector('.test-project').value;
+                if (name || feedback || project) data.testimonials.push({ name, feedback, project });
+            });
+
+            data.vision = {
+                title: document.getElementById('vision_title').value,
+                text: document.getElementById('vision_text').value
+            };
+
+            data.contact = {
+                phone: document.getElementById('contact_phone').value,
+                whatsapp: document.getElementById('contact_whatsapp').value,
+                email: document.getElementById('contact_email').value,
+                address: document.getElementById('contact_address').value
+            };
+
+            data.social = {
+                youtube: document.getElementById('social_youtube').value,
+                twitter: document.getElementById('social_twitter').value,
+                facebook: document.getElementById('social_facebook').value,
+                instagram: document.getElementById('social_instagram').value,
+                linkedin: document.getElementById('social_linkedin').value
+            };
+
+            data.pricing = [];
+            document.querySelectorAll('#pricing-container .pricing-card-admin').forEach(el => {
+                const label = el.querySelector('.pricing-label').value;
+                const price = el.querySelector('.pricing-price').value;
+                const note = el.querySelector('.pricing-note').value;
+                if (label || price || note) data.pricing.push({ label, price, note });
+            });
+
+            data.parallax_image = document.getElementById('parallax_image').value;
+
+            data.about = {
+                what_we_do_text: document.getElementById('about_what').value,
+                mission: document.getElementById('about_mission').value,
+                vision: document.getElementById('about_vision').value,
+                founders: [],
+                supporters: [],
+                achievements: []
+            };
+
+            document.querySelectorAll('#founders-container .array-item').forEach(el => {
+                const name = el.querySelector('.founder-name').value;
+                const role = el.querySelector('.founder-role').value;
+                const image = el.querySelector('.founder-image').value;
+                if (name || role || image) data.about.founders.push({ name, role, image });
+            });
+
+            document.querySelectorAll('#supporters-container .array-item').forEach(el => {
+                const name = el.querySelector('.supporter-name').value;
+                const role = el.querySelector('.supporter-role').value;
+                const image = el.querySelector('.supporter-image').value;
+                if (name || role || image) data.about.supporters.push({ name, role, image });
+            });
+
+            document.querySelectorAll('#achievement-container .array-item').forEach(el => {
+                const title = el.querySelector('.ach-title').value;
+                const image = el.querySelector('.ach-image').value;
+                if (title || image) data.about.achievements.push({ title, image });
+            });
+
+            data.careers = { jobs: [], internships: [] };
+            document.querySelectorAll('#jobs-container .array-item').forEach(el => {
+                const title = el.querySelector('.job-title').value;
+                const experience = el.querySelector('.job-experience').value;
+                const type = el.querySelector('.job-type').value;
+                if (title || experience || type) data.careers.jobs.push({ title, experience, type });
+            });
+            document.querySelectorAll('#internships-container .array-item').forEach(el => {
+                const title = el.querySelector('.intern-title').value;
+                const location = el.querySelector('.intern-location').value;
+                const duration = el.querySelector('.intern-duration').value;
+                if (title || location || duration) data.careers.internships.push({ title, location, duration });
+            });
+
+            data.gallery = [];
+            document.querySelectorAll('#gallery-container .array-item').forEach(el => {
+                const url = el.querySelector('.gallery-url').value.trim();
+                if (url) data.gallery.push(url);
+            });
+
+            data.projects = { past: [], present: [], upcoming: [] };
+            document.querySelectorAll('#past-projects-container .array-item').forEach(el => {
+                const title = el.querySelector('.past-title').value;
+                const description = el.querySelector('.past-desc').value;
+                const image = el.querySelector('.past-image').value;
+                if (title || description || image) data.projects.past.push({ title, description, image });
+            });
+            document.querySelectorAll('#present-projects-container .array-item').forEach(el => {
+                const title = el.querySelector('.present-title').value;
+                const description = el.querySelector('.present-desc').value;
+                const image = el.querySelector('.present-image').value;
+                if (title || description || image) data.projects.present.push({ title, description, image });
+            });
+            document.querySelectorAll('#upcoming-projects-container .array-item').forEach(el => {
+                const title = el.querySelector('.upcoming-title').value;
+                const description = el.querySelector('.upcoming-desc').value;
+                const image = el.querySelector('.upcoming-image').value;
+                if (title || description || image) data.projects.upcoming.push({ title, description, image });
+            });
+
+            return data;
+        }
+
+        async function saveData(data) {
+            try {
+                const res = await fetch('/api/data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.message || 'Save failed');
+                }
+                const result = await res.json();
+                showToast('✅ ' + result.message);
+                localStorage.setItem('dataUpdated', Date.now().toString());
+                return true;
+            } catch (err) {
+                showToast('❌ Error saving data: ' + err.message, true);
+                return false;
+            }
+        }
+
+        // ---------- RENDER FORM ----------
+        function renderForm(data) {
+            // Logo
+            document.getElementById('logo_url').value = data.logo_url || '';
+            document.getElementById('logo_url_display').textContent = data.logo_url || '(none)';
+            if (data.logo_url) {
+                const preview = document.getElementById('logo_preview');
+                preview.src = '/static/images/' + data.logo_url;
+                preview.style.display = 'block';
+            }
+
+            // Hero
+            renderArray('hero', data.hero || [], (item, idx) => `
+                <div class="array-item" data-index="${idx}">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" class="hero-image-upload" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadHeroImage(this, ${idx})">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="hero-image-name">${item.image || ''}</span></span>
+                            </div>
+                            <input type="hidden" class="hero-image" value="${item.image || ''}" />
+                            <img class="image-preview mt-1 hero-preview" src="${item.image ? '/static/images/' + item.image : ''}" style="${item.image ? 'display:block' : 'display:none'}" />
+                        </div>
+                        <div><label>Title</label><input type="text" class="hero-title" value="${item.title || ''}" /></div>
+                        <div><label>Subtitle</label><input type="text" class="hero-subtitle" value="${item.subtitle || ''}" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'hero')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'hero-container');
+
+            // What We Do
+            renderArray('wwd', data.what_we_do || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Icon (FontAwesome class)</label><input type="text" class="wwd-icon" value="${item.icon || ''}" placeholder="fa-building" /></div>
+                        <div><label>Title</label><input type="text" class="wwd-title" value="${item.title || ''}" /></div>
+                        <div><label>Description</label><input type="text" class="wwd-desc" value="${item.description || ''}" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'wwd')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'wwd-container');
+
+            // Specialized In
+            renderArray('spec', data.specialized_in || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Icon</label><input type="text" class="spec-icon" value="${item.icon || ''}" placeholder="fa-droplet" /></div>
+                        <div><label>Title</label><input type="text" class="spec-title" value="${item.title || ''}" /></div>
+                        <div><label>Description</label><input type="text" class="spec-desc" value="${item.description || ''}" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'spec')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'spec-container');
+
+            // Testimonials
+            renderArray('test', data.testimonials || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Name</label><input type="text" class="test-name" value="${item.name || ''}" /></div>
+                        <div><label>Feedback</label><input type="text" class="test-feedback" value="${item.feedback || ''}" /></div>
+                        <div><label>Project</label><input type="text" class="test-project" value="${item.project || ''}" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'test')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'test-container');
+
+            // Vision / Contact / Social
+            document.getElementById('vision_title').value = data.vision?.title || '';
+            document.getElementById('vision_text').value = data.vision?.text || '';
+            document.getElementById('contact_phone').value = data.contact?.phone || '';
+            document.getElementById('contact_whatsapp').value = data.contact?.whatsapp || '';
+            document.getElementById('contact_email').value = data.contact?.email || '';
+            document.getElementById('contact_address').value = data.contact?.address || '';
+            document.getElementById('social_youtube').value = data.social?.youtube || '';
+            document.getElementById('social_twitter').value = data.social?.twitter || '';
+            document.getElementById('social_facebook').value = data.social?.facebook || '';
+            document.getElementById('social_instagram').value = data.social?.instagram || '';
+            document.getElementById('social_linkedin').value = data.social?.linkedin || '';
+
+            // Pricing
+            renderArray('pricing', data.pricing || [], (item) => `
+                <div class="pricing-card-admin">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold" style="color:#0a2558;">${item.label || 'Tier'}</div>
+                            <div class="text-xl font-semibold" style="color:#00b4d8;">${item.price || '₹0'}</div>
+                            <div class="text-sm text-slate-500">${item.note || ''}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(this, 'pricing')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2 mt-3">
+                        <input type="text" class="pricing-label w-full border rounded-lg px-3 py-2 text-sm bg-white" value="${item.label || ''}" placeholder="Label" />
+                        <input type="text" class="pricing-price w-full border rounded-lg px-3 py-2 text-sm bg-white" value="${item.price || ''}" placeholder="Price" />
+                        <input type="text" class="pricing-note w-full border rounded-lg px-3 py-2 text-sm bg-white" value="${item.note || ''}" placeholder="Note" />
+                    </div>
+                </div>
+            `, 'pricing-container');
+
+            // Parallax
+            document.getElementById('parallax_image').value = data.parallax_image || '';
+            document.getElementById('parallax_image_display').textContent = data.parallax_image || '(none)';
+            if (data.parallax_image) {
+                const preview = document.getElementById('parallax_preview');
+                preview.src = '/static/images/' + data.parallax_image;
+                preview.style.display = 'block';
+            }
+
+            // About text
+            document.getElementById('about_what').value = data.about?.what_we_do_text || '';
+            document.getElementById('about_mission').value = data.about?.mission || '';
+            document.getElementById('about_vision').value = data.about?.vision || '';
+
+            // Founders (with local upload)
+            renderArray('founders', data.about?.founders || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Name</label><input type="text" class="founder-name" value="${item.name || ''}" placeholder="Full name" /></div>
+                        <div><label>Role</label><input type="text" class="founder-role" value="${item.role || ''}" placeholder="e.g. Co-founder, CEO" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'founder-image', 'founder-image-name', 'founder-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="founder-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="founder-image" value="${item.image || ''}" />
+                            <img class="image-preview founder-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'founders')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'founders-container');
+
+            // Supporters (with local upload)
+            renderArray('supporters', data.about?.supporters || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Name</label><input type="text" class="supporter-name" value="${item.name || ''}" placeholder="Full name" /></div>
+                        <div><label>Role / Association</label><input type="text" class="supporter-role" value="${item.role || ''}" placeholder="e.g. Partner, Advisor" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'supporter-image', 'supporter-image-name', 'supporter-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="supporter-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="supporter-image" value="${item.image || ''}" />
+                            <img class="image-preview supporter-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'supporters')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'supporters-container');
+
+            // Achievements (with local upload)
+            renderArray('achievement', data.about?.achievements || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label>Title</label><input type="text" class="ach-title" value="${item.title || ''}" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'ach-image', 'ach-image-name', 'ach-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="ach-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="ach-image" value="${item.image || ''}" />
+                            <img class="image-preview ach-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'achievement')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'achievement-container');
+
+            // Jobs
+            renderArray('jobs', data.careers?.jobs || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Title</label><input type="text" class="job-title" value="${item.title || ''}" /></div>
+                        <div><label>Experience</label><input type="text" class="job-experience" value="${item.experience || ''}" placeholder="e.g. 3+ years" /></div>
+                        <div><label>Type</label><input type="text" class="job-type" value="${item.type || ''}" placeholder="Full Time / Part Time" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'jobs')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'jobs-container');
+
+            // Internships
+            renderArray('internships', data.careers?.internships || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Title</label><input type="text" class="intern-title" value="${item.title || ''}" /></div>
+                        <div><label>Location</label><input type="text" class="intern-location" value="${item.location || ''}" /></div>
+                        <div><label>Duration</label><input type="text" class="intern-duration" value="${item.duration || ''}" placeholder="e.g. 3 months" /></div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'internships')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'internships-container');
+
+            // Gallery
+            renderArray('gallery', data.gallery || [], (item, idx) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" class="gallery-file-upload" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadGalleryImage(this, ${idx})">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="gallery-file-name">${item}</span></span>
+                            </div>
+                            <input type="hidden" class="gallery-url" value="${item}" />
+                            <img class="image-preview mt-1 gallery-preview" src="${item}" style="${item ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'gallery')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'gallery-container');
+
+            // Past Projects (with local upload)
+            renderArray('past-projects', data.projects?.past || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Title</label><input type="text" class="past-title" value="${item.title || ''}" /></div>
+                        <div><label>Description</label><input type="text" class="past-desc" value="${item.description || ''}" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'past-image', 'past-image-name', 'past-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="past-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="past-image" value="${item.image || ''}" />
+                            <img class="image-preview past-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'past-projects')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'past-projects-container');
+
+            // Present Projects
+            renderArray('present-projects', data.projects?.present || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Title</label><input type="text" class="present-title" value="${item.title || ''}" /></div>
+                        <div><label>Description</label><input type="text" class="present-desc" value="${item.description || ''}" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'present-image', 'present-image-name', 'present-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="present-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="present-image" value="${item.image || ''}" />
+                            <img class="image-preview present-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'present-projects')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'present-projects-container');
+
+            // Upcoming Projects
+            renderArray('upcoming-projects', data.projects?.upcoming || [], (item) => `
+                <div class="array-item">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div><label>Title</label><input type="text" class="upcoming-title" value="${item.title || ''}" /></div>
+                        <div><label>Description</label><input type="text" class="upcoming-desc" value="${item.description || ''}" /></div>
+                        <div>
+                            <label>Image</label>
+                            <div class="file-input-wrap">
+                                <input type="file" accept="image/*" />
+                                <button class="upload-btn" onclick="uploadItemImage(this, 'upcoming-image', 'upcoming-image-name', 'upcoming-preview')">Upload</button>
+                                <span class="text-sm text-slate-500">File: <span class="upcoming-image-name">${item.image || '(none)'}</span></span>
+                            </div>
+                            <input type="hidden" class="upcoming-image" value="${item.image || ''}" />
+                            <img class="image-preview upcoming-preview mt-1" src="${item.image || ''}" style="${item.image ? 'display:block' : 'display:none'}" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'upcoming-projects')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                    </div>
+                </div>
+            `, 'upcoming-projects-container');
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('admin-form').classList.remove('hidden');
+        }
+
+        // ---------- ADDERS ----------
+
+        function addHero() {
+            const container = document.getElementById('hero-container');
+            const idx = container.children.length;
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" class="hero-image-upload" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadHeroImage(this, ${idx})">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="hero-image-name"></span></span>
+                        </div>
+                        <input type="hidden" class="hero-image" value="" />
+                        <img class="image-preview mt-1 hero-preview" style="display:none;" />
+                    </div>
+                    <div><label>Title</label><input type="text" class="hero-title" value="" /></div>
+                    <div><label>Subtitle</label><input type="text" class="hero-subtitle" value="" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'hero')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addWWD() {
+            const container = document.getElementById('wwd-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Icon (FontAwesome class)</label><input type="text" class="wwd-icon" value="fa-building" placeholder="fa-building" /></div>
+                    <div><label>Title</label><input type="text" class="wwd-title" value="" placeholder="Title" /></div>
+                    <div><label>Description</label><input type="text" class="wwd-desc" value="" placeholder="Short description" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'wwd')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addSpec() {
+            const container = document.getElementById('spec-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Icon</label><input type="text" class="spec-icon" value="fa-droplet" placeholder="fa-droplet" /></div>
+                    <div><label>Title</label><input type="text" class="spec-title" value="" placeholder="Title" /></div>
+                    <div><label>Description</label><input type="text" class="spec-desc" value="" placeholder="Short description" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'spec')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addTest() {
+            const container = document.getElementById('test-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Name</label><input type="text" class="test-name" value="" placeholder="Client name" /></div>
+                    <div><label>Feedback</label><input type="text" class="test-feedback" value="" placeholder="Feedback" /></div>
+                    <div><label>Project</label><input type="text" class="test-project" value="" placeholder="Project name" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'test')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addPricing() {
+            const container = document.getElementById('pricing-container');
+            const div = document.createElement('div');
+            div.className = 'pricing-card-admin';
+            div.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="font-bold" style="color:#0a2558;">New Tier</div>
+                        <div class="text-xl font-semibold" style="color:#00b4d8;">₹0</div>
+                        <div class="text-sm text-slate-500">per sq.ft</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem(this, 'pricing')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button>
+                </div>
+                <div class="grid grid-cols-1 gap-2 mt-3">
+                    <input type="text" class="pricing-label w-full border rounded-lg px-3 py-2 text-sm bg-white" value="" placeholder="Label" />
+                    <input type="text" class="pricing-price w-full border rounded-lg px-3 py-2 text-sm bg-white" value="" placeholder="Price" />
+                    <input type="text" class="pricing-note w-full border rounded-lg px-3 py-2 text-sm bg-white" value="" placeholder="Note" />
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addFounder() {
+            const container = document.getElementById('founders-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Name</label><input type="text" class="founder-name" value="" placeholder="Full name" /></div>
+                    <div><label>Role</label><input type="text" class="founder-role" value="" placeholder="e.g. Co-founder, CEO" /></div>
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadItemImage(this, 'founder-image', 'founder-image-name', 'founder-preview')">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="founder-image-name">(none)</span></span>
+                        </div>
+                        <input type="hidden" class="founder-image" value="" />
+                        <img class="image-preview founder-preview mt-1" style="display:none;" />
+                    </div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'founders')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addSupporter() {
+            const container = document.getElementById('supporters-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Name</label><input type="text" class="supporter-name" value="" placeholder="Full name" /></div>
+                    <div><label>Role / Association</label><input type="text" class="supporter-role" value="" placeholder="e.g. Partner, Advisor" /></div>
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadItemImage(this, 'supporter-image', 'supporter-image-name', 'supporter-preview')">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="supporter-image-name">(none)</span></span>
+                        </div>
+                        <input type="hidden" class="supporter-image" value="" />
+                        <img class="image-preview supporter-preview mt-1" style="display:none;" />
+                    </div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'supporters')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addAchievement() {
+            const container = document.getElementById('achievement-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div><label>Title</label><input type="text" class="ach-title" value="" placeholder="Achievement title" /></div>
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadItemImage(this, 'ach-image', 'ach-image-name', 'ach-preview')">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="ach-image-name">(none)</span></span>
+                        </div>
+                        <input type="hidden" class="ach-image" value="" />
+                        <img class="image-preview ach-preview mt-1" style="display:none;" />
+                    </div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'achievement')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addJob() {
+            const container = document.getElementById('jobs-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Title</label><input type="text" class="job-title" value="" placeholder="Job title" /></div>
+                    <div><label>Experience</label><input type="text" class="job-experience" value="" placeholder="e.g. 3+ years" /></div>
+                    <div><label>Type</label><input type="text" class="job-type" value="Full Time" placeholder="Full Time / Part Time" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'jobs')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addInternship() {
+            const container = document.getElementById('internships-container');
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Title</label><input type="text" class="intern-title" value="" placeholder="Internship title" /></div>
+                    <div><label>Location</label><input type="text" class="intern-location" value="" placeholder="City / Remote" /></div>
+                    <div><label>Duration</label><input type="text" class="intern-duration" value="" placeholder="e.g. 3 months" /></div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'internships')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addGalleryImage() {
+            const container = document.getElementById('gallery-container');
+            const idx = container.children.length;
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" class="gallery-file-upload" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadGalleryImage(this, ${idx})">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="gallery-file-name"></span></span>
+                        </div>
+                        <input type="hidden" class="gallery-url" value="" />
+                        <img class="image-preview mt-1 gallery-preview" style="display:none;" />
+                    </div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, 'gallery')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function addProject(category) {
+            const containerMap = {
+                'past': 'past-projects-container',
+                'present': 'present-projects-container',
+                'upcoming': 'upcoming-projects-container'
+            };
+            const container = document.getElementById(containerMap[category]);
+            const cls = category;
+            const div = document.createElement('div');
+            div.className = 'array-item';
+            div.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div><label>Title</label><input type="text" class="${cls}-title" value="" placeholder="Project title" /></div>
+                    <div><label>Description</label><input type="text" class="${cls}-desc" value="" placeholder="Short description" /></div>
+                    <div>
+                        <label>Image</label>
+                        <div class="file-input-wrap">
+                            <input type="file" accept="image/*" />
+                            <button class="upload-btn" onclick="uploadItemImage(this, '${cls}-image', '${cls}-image-name', '${cls}-preview')">Upload</button>
+                            <span class="text-sm text-slate-500">File: <span class="${cls}-image-name">(none)</span></span>
+                        </div>
+                        <input type="hidden" class="${cls}-image" value="" />
+                        <img class="image-preview ${cls}-preview mt-1" style="display:none;" />
+                    </div>
+                    <div class="flex items-end"><button class="remove-btn" onclick="removeItem(this, '${category}-projects')"><i class="fa-regular fa-trash-can mr-1"></i>Remove</button></div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        async function uploadHeroImage(btn) {
+            const item = btn.closest('.array-item');
+            const fileInput = item.querySelector('.hero-image-upload');
+            const file = fileInput.files[0];
+            if (!file) { showToast('Select a file first.', true); return; }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Upload failed');
+                const result = await res.json();
+                if (result.filename) {
+                    item.querySelector('.hero-image').value = result.filename;
+                    const nameSpan = item.querySelector('.hero-image-name');
+                    if (nameSpan) nameSpan.textContent = result.filename;
+                    const preview = item.querySelector('.hero-preview');
+                    preview.src = '/static/images/' + result.filename;
+                    preview.style.display = 'block';
+                    showToast('✅ Image uploaded!');
+                } else {
+                    showToast('Error: ' + (result.error || 'Unknown'), true);
+                }
+            } catch (err) {
+                showToast('Upload error: ' + err.message, true);
+            }
+        }
+
+        async function uploadGalleryImage(btn) {
+            const item = btn.closest('.array-item');
+            const fileInput = item.querySelector('.gallery-file-upload');
+            const file = fileInput.files[0];
+            if (!file) { showToast('Select a file first.', true); return; }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Upload failed');
+                const result = await res.json();
+                if (result.filename) {
+                    const url = '/static/images/' + result.filename;
+                    item.querySelector('.gallery-url').value = url;
+                    const nameSpan = item.querySelector('.gallery-file-name');
+                    if (nameSpan) nameSpan.textContent = result.filename;
+                    const preview = item.querySelector('.gallery-preview');
+                    preview.src = url;
+                    preview.style.display = 'block';
+                    showToast('✅ Image uploaded!');
+                } else {
+                    showToast('Error: ' + (result.error || 'Unknown'), true);
+                }
+            } catch (err) {
+                showToast('Upload error: ' + err.message, true);
+            }
+        }
+
+        async function handleSave() {
+            const updated = collectFormData();
+            await saveData(updated);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const res = await fetch('/api/data');
+                if (!res.ok) throw new Error('Failed to fetch');
+                const data = await res.json();
+                renderForm(data);
+            } catch (err) {
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-red-500">
+                        <i class="fa-solid fa-circle-exclamation text-3xl mb-3 block"></i>
+                        <p class="font-medium">Could not load data.</p>
+                        <p class="text-sm text-slate-500">Make sure Flask is running: <code class="bg-slate-200 px-2 py-0.5 rounded">python app.py</code></p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('save-all').addEventListener('click', handleSave);
+            document.getElementById('save-all-bottom').addEventListener('click', handleSave);
+        });
+    </script>
+
+</body>
+</html>
