@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amruthadhara Infra | Premier Civil Engineering &amp; Construction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { navy: '#051025', blue: '#0a2558', cyan: '#00b4d8', light: '#e0f2fe', silver: '#e2e8f0',
+                            metal: '#64748b', chrome: '#f8fafc' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Montserrat', 'system-ui',
+                            'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #051025; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00b4d8; }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: #00b4d8; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .carousel-item.active { opacity: 1; z-index: 10; }
+        .carousel-item.active h1, .carousel-item.active p { animation: fadeIn 1s ease-out forwards; }
+        #testimonial-track::-webkit-scrollbar { display: none; }
+        #testimonial-track { -ms-overflow-style: none; scrollbar-width: none; }
+        .modal-overlay { background: rgba(5, 16, 37, 0.7); backdrop-filter: blur(4px); }
+        .estimation-btn { background: linear-gradient(135deg, #00b4d8, #0077b6); box-shadow: 0 8px 32px rgba(0, 180, 216, 0.35); }
+        .estimation-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0, 180, 216, 0.5); }
+        .pricing-card { background: #fff; border-radius: 12px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e9edf2; transition: all 0.2s; }
+        .pricing-card:hover { border-color: #00b4d8; transform: translateY(-2px); }
+        .book-btn { position: fixed; bottom: 100px; left: 20px; z-index: 50; background: linear-gradient(135deg, #00b4d8, #0077b6); color: #fff; padding: 12px 20px; border-radius: 40px; box-shadow: 0 8px 24px rgba(0, 180, 216, 0.4); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; transition: all 0.3s ease; border: none; cursor: pointer; text-decoration: none; }
+        .book-btn:hover { transform: scale(1.05); box-shadow: 0 12px 32px rgba(0, 180, 216, 0.6); }
+        .book-btn i { font-size: 1.2rem; }
+        @media (max-width: 640px) { .book-btn { bottom: 80px; left: 10px; padding: 10px 16px; font-size: 0.8rem; } }
+    </style>
+</head>
+<body class="text-slate-700 bg-slate-50 antialiased selection:bg-brand-cyan selection:text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-brand-navy border-b border-white/5 shadow-lg">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold flex items-center gap-3">
+                <img id="nav-logo" src="" alt="Logo" class="h-10 w-auto object-contain hidden" />
+                <div class="flex flex-col">
+                    <span class="text-lg md:text-2xl font-display tracking-tight text-white transition-colors">Amruthadhara</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.3em] text-brand-cyan uppercase font-light transition-colors">Infra</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="/" class="nav-link text-brand-cyan hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-white focus:outline-none p-2 hover:text-brand-cyan transition-colors z-50 relative" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-navy border-t border-white/10 w-full shadow-2xl">
+            <div class="flex flex-col px-6 py-6 space-y-4 text-center">
+                <a href="/" class="nav-link text-brand-cyan block py-3 border-b border-white/5">Home</a>
+                <a href="/aboutus" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">About Us</a>
+                <a href="/services" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Services</a>
+                <a href="/gallery" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Gallery</a>
+                <a href="/projects" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Projects</a>
+                <a href="/careers" class="nav-link text-slate-300 hover:text-brand-cyan block py-3 border-b border-white/5">Careers</a>
+                <a href="/contact" class="nav-link text-slate-300 hover:text-brand-cyan block py-3">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <a id="btn-whatsapp" href="#" target="_blank" class="w-14 h-14 bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-green-500 hover:scale-110 transition-all duration-300">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+        </a>
+        <a id="btn-phone" href="#" class="w-14 h-14 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-all duration-300">
+            <i class="fa-solid fa-phone text-2xl"></i>
+        </a>
+    </div>
+
+    <a href="/contact" class="book-btn">
+        <i class="fa-regular fa-calendar-check"></i> Book Your Free Construction
+    </a>
+
+    <!-- Hero Carousel -->
+    <section id="home" class="relative h-[400px] md:h-screen min-h-[400px] md:min-h-[600px] flex items-center justify-center text-white overflow-hidden pt-20">
+        <div class="carousel w-full h-full relative" id="hero-carousel"></div>
+        <button id="hero-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/30 hover:bg-brand-cyan rounded-full flex items-center justify-center transition-colors border border-white/20"><i class="fa-solid fa-chevron-left"></i></button>
+        <button id="hero-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-black/30 hover:bg-brand-cyan rounded-full flex items-center justify-center transition-colors border border-white/20"><i class="fa-solid fa-chevron-right"></i></button>
+    </section>
+
+    <!-- Pricing + Estimation (single row) -->
+    <div class="relative z-10 -mt-8 md:-mt-12 flex justify-center px-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-7xl w-full p-5 md:p-8 border border-slate-200">
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 mb-6 md:mb-8" id="pricing-grid"></div>
+            <div class="text-center">
+    <a href="/estimation" id="estimation-btn" class="estimation-btn text-white font-bold py-4 px-8 md:px-12 rounded-full text-lg md:text-xl inline-flex items-center gap-3 transition-all duration-300 mx-auto">
+        <i class="fa-solid fa-calculator"></i> Check Your Site Estimation <i class="fa-solid fa-arrow-right text-sm"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+
+
+
+
+    <!-- Estimation Modal -->
+    <!-- <div id="estimation-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button id="estimation-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold text-brand-navy mb-2 font-display">Site Estimation</h3>
+            <p class="text-slate-500 text-sm mb-6">Fill in the details and we'll prepare your estimate request for email or WhatsApp.</p>
+            <form id="estimation-form" class="space-y-4">
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Full Name *</label><input type="text" id="est-name" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition" /></div>
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Phone Number *</label><input type="tel" id="est-phone" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition" /></div>
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Email</label><input type="email" id="est-email" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition" /></div>
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Project Type *</label>
+                    <select id="est-project-type" required class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition bg-white">
+                        <option value="">Select type</option>
+                        <option value="Residential Building">Residential Building</option>
+                        <option value="Duplex House">Duplex House</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Farmhouse">Farmhouse</option>
+                        <option value="Interiors">Interiors</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Approximate Area (sq.ft)</label><input type="number" id="est-area" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition" placeholder="e.g. 1500" /></div>
+                <div><label class="block text-sm font-medium text-slate-600 mb-1">Message / Requirements</label><textarea id="est-message" rows="3" class="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-cyan transition resize-none"></textarea></div>
+                <button type="submit" class="w-full bg-brand-cyan text-white font-bold py-3 rounded-lg hover:bg-brand-blue transition shadow-lg shadow-brand-cyan/20"><i class="fa-regular fa-paper-plane mr-2"></i>Prepare Estimate Request</button>
+                <p class="text-xs text-slate-400 text-center mt-2">You can send the prepared request directly to our team.</p>
+            </form>
+            <div id="estimation-success" class="hidden text-center py-6">
+                <i class="fa-regular fa-circle-check text-5xl text-green-500 mb-4"></i>
+                <h4 class="text-xl font-bold text-brand-navy">Request Ready to Send</h4>
+                <p class="text-slate-500 text-sm mt-2">Use email or WhatsApp below to send your estimate request instantly.</p>
+                <div class="mt-4 flex flex-wrap justify-center gap-3">
+                    <a id="estimation-email-link" href="#" class="inline-flex items-center gap-2 bg-brand-navy text-white px-5 py-2 rounded-lg hover:bg-brand-blue transition"><i class="fa-regular fa-envelope"></i> Email Request</a>
+                    <a id="estimation-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-500 transition"><i class="fa-brands fa-whatsapp"></i> WhatsApp Request</a>
+                </div>
+                <button id="estimation-done" class="mt-4 bg-brand-cyan text-white px-6 py-2 rounded-lg hover:bg-brand-blue transition">Close</button>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- What We Do -->
+    <section id="what-we-do" class="py-16 md:py-24 bg-white relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-brand-navy mb-4 font-display">What We Do ?</h2>
+                <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8" id="what-we-do-grid"></div>
+        </div>
+    </section>
+
+    <!-- Specialized In -->
+    <section id="specialized" class="py-16 bg-brand-navy text-white relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 font-display">Specialized In</h2>
+                <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8" id="specialized-in-grid"></div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials-section" class="py-16 md:py-24 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-navy mb-4 font-display">Testimonials</h2>
+                <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full"></div>
+            </div>
+            <div class="relative max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-xl overflow-hidden" id="testimonial-slider">
+                <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-track"></div>
+                <button id="test-prev" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-100 hover:bg-brand-cyan text-brand-navy hover:text-white rounded-full flex items-center justify-center transition-colors shadow"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="test-next" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-100 hover:bg-brand-cyan text-brand-navy hover:text-white rounded-full flex items-center justify-center transition-colors shadow"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax (now a full main image, not background) -->
+    <section id="parallax-section" class="h-96 md:h-[500px] w-full relative overflow-hidden">
+        <img id="parallax-image" src="" alt="Parallax" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-brand-navy/40"></div>
+    </section>
+
+    <!-- Vision -->
+    <section id="vision-section" class="py-20 bg-white text-center">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 id="vision-title" class="text-4xl md:text-5xl font-bold text-brand-navy mb-6 font-display"></h2>
+            <div class="w-20 h-1 bg-brand-cyan mx-auto rounded-full mb-8"></div>
+            <p id="vision-text" class="text-xl text-slate-600 leading-relaxed font-light"></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-brand-navy text-white pt-16 pb-8 border-t-4 border-brand-cyan">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold font-display mb-4">Amruthadhara Infra</h3>
+                    <p class="text-slate-400 text-sm mb-6">Delivering excellence in civil engineering and sustainable construction.</p>
+                    <div class="flex gap-4">
+                        <a href="#" id="footer-facebook" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" id="footer-instagram" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" id="footer-linkedin" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" id="footer-youtube" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" id="footer-twitter" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-cyan transition"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="/" class="hover:text-brand-cyan transition text-brand-cyan">Home</a></li>
+                        <li><a href="/aboutus" class="hover:text-brand-cyan transition">About Us</a></li>
+                        <li><a href="/services" class="hover:text-brand-cyan transition">Services</a></li>
+                        <li><a href="/gallery" class="hover:text-brand-cyan transition">Gallery</a></li>
+                        <li><a href="/projects" class="hover:text-brand-cyan transition">Projects</a></li>
+                        <li><a href="/careers" class="hover:text-brand-cyan transition">Careers</a></li>
+                        <li><a href="/contact" class="hover:text-brand-cyan transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-brand-cyan"></i> <span id="footer-phone"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-brands fa-whatsapp text-brand-cyan"></i> <span id="footer-whatsapp"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand-cyan"></i> <span id="footer-email"></span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot text-brand-cyan"></i> <span id="footer-address"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-slate-500 text-xs border-t border-white/10 pt-8">
+                &copy; 2026 Amruthadhara Infra. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function fetchData(force = false) {
+            try {
+                const url = '/api/data' + (force ? '?_=' + Date.now() : '');
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('Network error');
+                return await res.json();
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                alert('Could not load content from server. Ensure Flask is running.');
+                return null;
+            }
+        }
+
+        function renderAll(data) {
+            if (!data) return;
+            const logo = document.getElementById('nav-logo');
+            if (logo && data.logo_url) {
+                logo.src = '/static/images/' + data.logo_url;
+                logo.classList.remove('hidden');
+            } else if (logo) {
+                logo.classList.add('hidden');
+            }
+
+            // Hero
+            const container = document.getElementById('hero-carousel');
+            if (container) {
+                container.innerHTML = '';
+                if (data.hero && data.hero.length) {
+                    data.hero.forEach((slide, index) => {
+                        const item = document.createElement('div');
+                        item.className =
+                            `carousel-item absolute inset-0 transition-opacity duration-1000 ${index === 0 ? 'opacity-100 z-10 active' : 'opacity-0 z-0'}`;
+                        item.innerHTML = `
+                            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/static/images/${slide.image || ''}');"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/90 to-brand-navy/40"></div>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
+                                <h1 class="text-4xl md:text-6xl lg:text-8xl font-bold mb-6 font-display drop-shadow-2xl text-white">${slide.title || ''}</h1>
+                                <p class="text-xl md:text-2xl text-brand-cyan font-light">${slide.subtitle || ''}</p>
+                            </div>
+                        `;
+                        container.appendChild(item);
+                    });
+                    bindHeroControls();
+                }
+            }
+
+            // Pricing — always 4 columns (single line)
+            const pricingGrid = document.getElementById('pricing-grid');
+            if (pricingGrid && data.pricing) {
+                pricingGrid.innerHTML = '';
+                data.pricing.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'pricing-card';
+                    card.innerHTML = `
+                        <div class="text-[9px] sm:text-xs uppercase tracking-wider text-slate-500 font-semibold">${item.label || ''}</div>
+                        <div class="text-base sm:text-2xl md:text-3xl font-bold text-brand-navy mt-1 sm:mt-2">${item.price || ''}</div>
+                        <div class="text-[9px] sm:text-sm text-slate-400 mt-0.5 sm:mt-1">${item.note || ''}</div>
+                    `;
+                    pricingGrid.appendChild(card);
+                });
+            }
+
+            // What We Do
+            const wwd = document.getElementById('what-we-do-grid');
+            if (wwd && data.what_we_do) {
+                wwd.innerHTML = '';
+                data.what_we_do.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className =
+                        'bg-slate-50 p-8 rounded-lg shadow hover:shadow-xl hover:-translate-y-2 transition-all group text-center border-b-4 border-transparent hover:border-brand-cyan';
+                    div.innerHTML = `
+                        <div class="w-20 h-20 mx-auto bg-brand-navy text-white rounded-full flex items-center justify-center mb-6 text-3xl group-hover:bg-brand-cyan transition-colors">
+                            <i class="fa-solid ${item.icon || 'fa-circle'}"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-navy mb-3">${item.title || ''}</h3>
+                        <p class="text-slate-500 text-sm">${item.description || ''}</p>
+                    `;
+                    wwd.appendChild(div);
+                });
+            }
+
+            // Specialized In
+            const spec = document.getElementById('specialized-in-grid');
+            if (spec && data.specialized_in) {
+                spec.innerHTML = '';
+                data.specialized_in.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-6 border border-white/10 rounded-lg hover:bg-white/5 transition-colors group';
+                    div.innerHTML = `
+                        <i class="fa-solid ${item.icon || 'fa-circle'} text-4xl text-brand-cyan mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="text-xl font-bold mb-2">${item.title || ''}</h3>
+                        <p class="text-slate-400 text-sm">${item.description || ''}</p>
+                    `;
+                    spec.appendChild(div);
+                });
+            }
+
+            // Testimonials
+            const track = document.getElementById('testimonial-track');
+            if (track && data.testimonials) {
+                track.innerHTML = '';
+                data.testimonials.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'w-full flex-shrink-0 px-4 text-center';
+                    div.innerHTML = `
+                        <i class="fa-solid fa-quote-left text-4xl text-brand-cyan/30 mb-6"></i>
+                        <p class="text-lg md:text-xl text-slate-600 italic mb-8">"${item.feedback || ''}"</p>
+                        <h4 class="text-brand-navy font-bold text-lg">${item.name || ''}</h4>
+                        <span class="text-brand-cyan text-sm">${item.project || ''}</span>
+                    `;
+                    track.appendChild(div);
+                });
+                bindTestimonialControls();
+            }
+
+            // Vision
+            const vTitle = document.getElementById('vision-title');
+            const vText = document.getElementById('vision-text');
+            if (data.vision) {
+                if (vTitle) vTitle.textContent = data.vision.title || '';
+                if (vText) vText.textContent = data.vision.text || '';
+            }
+
+            // Contact
+            if (data.contact) {
+                const phone = document.getElementById('footer-phone');
+                const whatsapp = document.getElementById('footer-whatsapp');
+                const email = document.getElementById('footer-email');
+                const address = document.getElementById('footer-address');
+                if (phone) phone.textContent = '+91 ' + (data.contact.phone || '');
+                if (whatsapp) whatsapp.textContent = '+91 ' + (data.contact.whatsapp || '');
+                if (email) email.textContent = data.contact.email || '';
+                if (address) address.textContent = data.contact.address || '';
+            }
+
+            // Social
+            if (data.social) {
+                const map = { 'footer-youtube': 'youtube', 'footer-twitter': 'twitter', 'footer-facebook': 'facebook',
+                    'footer-instagram': 'instagram', 'footer-linkedin': 'linkedin' };
+                for (const [elId, key] of Object.entries(map)) {
+                    const el = document.getElementById(elId);
+                    if (el && data.social[key]) {
+                        el.href = data.social[key];
+                    }
+                }
+            }
+
+            // Parallax — image as main image (not background)
+            const parallaxImg = document.getElementById('parallax-image');
+            if (parallaxImg && data.parallax_image) {
+                parallaxImg.src = '/static/images/' + data.parallax_image;
+            }
+
+            // Floating buttons
+            const btnWhatsapp = document.getElementById('btn-whatsapp');
+            const btnPhone = document.getElementById('btn-phone');
+            if (data.contact) {
+                if (btnWhatsapp) btnWhatsapp.href = 'https://wa.me/91' + (data.contact.whatsapp || '');
+                if (btnPhone) btnPhone.href = 'tel:+91' + (data.contact.phone || '');
+            }
+        }
+
+        function bindHeroControls() {
+            const container = document.getElementById('hero-carousel');
+            const heroItems = container ? container.querySelectorAll('.carousel-item') : [];
+            const heroPrev = document.getElementById('hero-prev');
+            const heroNext = document.getElementById('hero-next');
+            let currentHero = 0;
+            let heroInterval;
+
+            function showHero(index) {
+                heroItems.forEach((item, i) => {
+                    if (i === index) {
+                        item.classList.remove('opacity-0', 'z-0');
+                        item.classList.add('opacity-100', 'z-10', 'active');
+                    } else {
+                        item.classList.remove('opacity-100', 'z-10', 'active');
+                        item.classList.add('opacity-0', 'z-0');
+                    }
+                });
+            }
+
+            function nextHero() {
+                if (heroItems.length) {
+                    currentHero = (currentHero + 1) % heroItems.length;
+                    showHero(currentHero);
+                }
+            }
+
+            function prevHero() {
+                if (heroItems.length) {
+                    currentHero = (currentHero - 1 + heroItems.length) % heroItems.length;
+                    showHero(currentHero);
+                }
+            }
+
+            if (heroItems.length > 0) {
+                clearInterval(heroInterval);
+                heroInterval = setInterval(nextHero, 5000);
+                if (heroNext) {
+                    heroNext.replaceWith(heroNext.cloneNode(true));
+                    document.getElementById('hero-next').addEventListener('click', function() {
+                        clearInterval(heroInterval);
+                        nextHero();
+                        heroInterval = setInterval(nextHero, 5000);
+                    });
+                }
+                if (heroPrev) {
+                    heroPrev.replaceWith(heroPrev.cloneNode(true));
+                    document.getElementById('hero-prev').addEventListener('click', function() {
+                        clearInterval(heroInterval);
+                        prevHero();
+                        heroInterval = setInterval(nextHero, 5000);
+                    });
+                }
+            }
+        }
+
+        function bindTestimonialControls() {
+            const track = document.getElementById('testimonial-track');
+            const testItems = track ? track.children : [];
+            const testPrev = document.getElementById('test-prev');
+            const testNext = document.getElementById('test-next');
+            let currentTest = 0;
+            let testInterval;
+
+            function updateTestimonialPosition() {
+                track.style.transform = 'translateX(-' + (currentTest * 100) + '%)';
+            }
+
+            function nextTest() {
+                if (testItems.length) {
+                    currentTest = (currentTest + 1) % testItems.length;
+                    updateTestimonialPosition();
+                }
+            }
+
+            function prevTest() {
+                if (testItems.length) {
+                    currentTest = (currentTest - 1 + testItems.length) % testItems.length;
+                    updateTestimonialPosition();
+                }
+            }
+
+            if (testItems.length > 0) {
+                clearInterval(testInterval);
+                testInterval = setInterval(nextTest, 4000);
+                if (testNext) {
+                    testNext.replaceWith(testNext.cloneNode(true));
+                    document.getElementById('test-next').addEventListener('click', function() {
+                        clearInterval(testInterval);
+                        nextTest();
+                        testInterval = setInterval(nextTest, 4000);
+                    });
+                }
+                if (testPrev) {
+                    testPrev.replaceWith(testPrev.cloneNode(true));
+                    document.getElementById('test-prev').addEventListener('click', function() {
+                        clearInterval(testInterval);
+                        prevTest();
+                        testInterval = setInterval(nextTest, 4000);
+                    });
+                }
+            }
+        }
+
+        function initEstimation(data) {
+            const estBtn = document.getElementById('estimation-btn');
+            const estModal = document.getElementById('estimation-modal');
+            const estClose = document.getElementById('estimation-close');
+            const estForm = document.getElementById('estimation-form');
+            const estSuccess = document.getElementById('estimation-success');
+            const estDone = document.getElementById('estimation-done');
+
+            if (!estBtn || !estModal) return;
+
+            estBtn.addEventListener('click', function() {
+                estModal.classList.remove('hidden');
+                estModal.style.display = 'flex';
+                estForm.classList.remove('hidden');
+                estSuccess.classList.add('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+
+            if (estClose) {
+                estClose.addEventListener('click', function() {
+                    estModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+
+            estModal.addEventListener('click', function(e) {
+                if (e.target === estModal) {
+                    estModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            if (estForm) {
+                estForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('est-name').value.trim();
+                    const phone = document.getElementById('est-phone').value.trim();
+                    const email = document.getElementById('est-email').value.trim();
+                    const projectType = document.getElementById('est-project-type').value.trim();
+                    const area = document.getElementById('est-area').value.trim();
+                    const message = document.getElementById('est-message').value.trim();
+                    const contact = data?.contact || {};
+                    const contactEmail = contact.email || 'info@amruthadharainfra.com';
+                    const whatsappNumber = contact.whatsapp || '';
+                    const subject = `Estimate Request - ${projectType || 'New Project'}`;
+                    const bodyLines = [
+                        'Hello Amruthadhara Infra,',
+                        '',
+                        'Please review my estimate request:',
+                        '',
+                        `Name: ${name}`,
+                        `Phone: ${phone}`,
+                        `Email: ${email || 'Not provided'}`,
+                        `Project Type: ${projectType}`,
+                        `Approximate Area: ${area ? area + ' sq.ft' : 'Not provided'}`,
+                        '',
+                        'Requirements:',
+                        message || 'No additional requirements provided.'
+                    ];
+                    const mailtoLink =
+                        `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+                    const whatsappLink =
+                        `https://wa.me/91${whatsappNumber}?text=${encodeURIComponent(bodyLines.join('\n'))}`;
+                    const emailLinkEl = document.getElementById('estimation-email-link');
+                    const whatsappLinkEl = document.getElementById('estimation-whatsapp-link');
+
+                    if (emailLinkEl) {
+                        emailLinkEl.href = mailtoLink;
+                    }
+                    if (whatsappLinkEl) {
+                        if (whatsappNumber) {
+                            whatsappLinkEl.href = whatsappLink;
+                            whatsappLinkEl.classList.remove('hidden');
+                        } else {
+                            whatsappLinkEl.classList.add('hidden');
+                        }
+                    }
+
+                    estForm.classList.add('hidden');
+                    estSuccess.classList.remove('hidden');
+                });
+            }
+
+            if (estDone) {
+                estDone.addEventListener('click', function() {
+                    estModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    estForm.classList.remove('hidden');
+                    estSuccess.classList.add('hidden');
+                    estForm.reset();
+                });
+            }
+        }
+
+        function initMobileMenu() {
+            const mmBtn = document.getElementById('mobile-menu-btn');
+            const mm = document.getElementById('mobile-menu');
+            if (mmBtn && mm) {
+                mmBtn.addEventListener('click', function() {
+                    mm.classList.toggle('hidden');
+                });
+                mm.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mm.classList.add('hidden');
+                    });
+                });
+            }
+        }
+
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 80) {
+                    navbar.classList.add('bg-brand-navy/95', 'backdrop-blur-sm');
+                    navbar.classList.remove('bg-brand-navy');
+                } else {
+                    navbar.classList.remove('bg-brand-navy/95', 'backdrop-blur-sm');
+                    navbar.classList.add('bg-brand-navy');
+                }
+            });
+        }
+
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        const offset = 80;
+                        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        function initCrossTabUpdate() {
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'dataUpdated') {
+                    fetchData(true).then(data => {
+                        if (data) renderAll(data);
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const data = await fetchData(false);
+            if (data) {
+                renderAll(data);
+                
+            } else {
+                document.body.innerHTML = `
+                    <div class="p-8 text-center">
+                        <h1 class="text-2xl font-bold text-red-600">Error loading data</h1>
+                        <p class="mt-2 text-slate-600">Please check the server connection.</p>
+                        <p class="mt-1 text-sm text-slate-500">Make sure Flask is running: <code>python app.py</code></p>
+                    </div>
+                `;
+                return;
+            }
+
+            initMobileMenu();
+            initNavbar();
+            initSmoothScroll();
+            initCrossTabUpdate();
+        });
+    </script>
+</body>
+</html>
