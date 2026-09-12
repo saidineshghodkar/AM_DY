@@ -1,0 +1,244 @@
+{
+  "logo_url": "logo_5e336174d505.png",
+  "hero": [
+    {
+      "image": "at_2cf3c215458a.jpeg",
+      "title": "AICSKU",
+      "subtitle": "NAGESH"
+    }
+  ],
+  "what_we_do": [
+    {
+      "icon": "fa-building",
+      "title": "Residential Building",
+      "description": "Quality homes designed for comfort and longevity."
+    },
+    {
+      "icon": "fa-house-chimney",
+      "title": "Duplex House",
+      "description": "Modern duplex designs with premium finishes."
+    },
+    {
+      "icon": "fa-tree",
+      "title": "Villa & Farmhouse",
+      "description": "Luxury villas and farmhouses in serene locations."
+    },
+    {
+      "icon": "fa-paint-roller",
+      "title": "Interiors",
+      "description": "Aesthetic interiors with sustainable materials."
+    }
+  ],
+  "specialized_in": [
+    {
+      "icon": "fa-droplet",
+      "title": "Rain Water Harvesting",
+      "description": "Sustainable water management solutions."
+    },
+    {
+      "icon": "fa-microchip",
+      "title": "IOT Integration",
+      "description": "Smart building automation and IOT solutions."
+    },
+    {
+      "icon": "fa-leaf",
+      "title": "Green Interiors",
+      "description": "Eco-friendly materials and sustainable design."
+    },
+    {
+      "icon": "fa-solar-panel",
+      "title": "Solar Solutions",
+      "description": "Renewable energy integration for buildings."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "sai dinesh ghodkar",
+      "feedback": "Amruthadhara Infra delivered our dream home with exceptional quality and on time. Highly recommended!",
+      "project": "Residential Villa"
+    },
+    {
+      "name": "Priya Reddy",
+      "feedback": "Their attention to detail and sustainable approach made our farmhouse truly special. Amazing team!",
+      "project": "Farmhouse Project"
+    },
+    {
+      "name": "Suresh Patel",
+      "feedback": "Professional, reliable, and innovative. They transformed our commercial space beyond expectations.",
+      "project": "Commercial Building"
+    }
+  ],
+  "vision": {
+    "title": "Young minds big vision...",
+    "text": "We are a team of passionate engineers and designers committed to building a sustainable future through innovative construction practices. Our vision is to create structures that stand the test of time while respecting the environment."
+  },
+  "contact": {
+    "phone": "9347051097",
+    "whatsapp": "9347051097",
+    "email": "info@amruthadharainfra.com",
+    "address": "Hyderabad, Telangana, India"
+  },
+  "social": {
+    "youtube": "https://youtube.com",
+    "twitter": "https://x.com",
+    "facebook": "#",
+    "instagram": "#",
+    "linkedin": "#"
+  },
+  "pricing": [
+    {
+      "label": "Basic",
+      "price": "₹2000",
+      "note": "per sq.ft"
+    },
+    {
+      "label": "Premium",
+      "price": "₹2,399",
+      "note": "per sq.ft"
+    },
+    {
+      "label": "Luxury",
+      "price": "₹3,299",
+      "note": "per sq.ft"
+    },
+    {
+      "label": "Ultra Luxury",
+      "price": "₹4,999",
+      "note": "per sq.ft"
+    }
+  ],
+  "parallax_image": "te_5ecac8844f5c.jpg",
+  "about": {
+    "what_we_do_text": "We are a civil-engineering-led Private Limited Company delivering integrated solutions across construction, interiors, water infrastructure and development.",
+    "mission": "To deliver integrated construction, interior, water, and real estate solutions through site-first understanding, practical design, quality execution, and a strong commitment to safety, sustainability, and client trust.",
+    "vision": "To create safe, sustainable, and high-performing built environments by combining thoughtful planning, engineering discipline, and responsible execution.",
+    "founders": [
+      {
+        "name": "M NAGESWARA RAO ",
+        "role": "FOUNDER & CEO",
+        "image": "/static/images/nagesh_c0f207a6704a.jpg"
+      },
+      {
+        "name": "P MOUNIKA",
+        "role": "CO-FOUNDER & COO",
+        "image": "/static/images/mounika_47af1320c15a.jpg"
+      }
+    ],
+    "supporters": [
+      {
+        "name": "G SAI DINESH",
+        "role": "WEB DEVELOPER",
+        "image": "/static/images/me_048115f2ae8b.png"
+      },
+      {
+        "name": "E SIVA NAIK",
+        "role": "SOCIAL MEDIA",
+        "image": "/static/images/shi_0d56e08e3b5c.jpeg"
+      },
+      {
+        "name": "M MADAN GOPAL",
+        "role": "RESEARCH & DEVELOPMENT",
+        "image": "/static/images/d_74a0feddd85c.jpeg"
+      }
+    ],
+    "achievements": [
+      {
+        "title": "Best Construction Company 2024",
+        "image": "https://th.bing.com/th/id/OIP.GYfbe3hhi4zsZWpQz_gecgHaE8?w=297&h=199&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
+      },
+      {
+        "title": "Green Building Award 2023",
+        "image": "ach2.jpg"
+      },
+      {
+        "title": "ISO 9001:2020 Certified",
+        "image": "ach3.jpg"
+      }
+    ]
+  },
+  "careers": {
+    "jobs": [
+      {
+        "title": "Senior Site Engineer",
+        "experience": "5+ Years",
+        "type": "Full Time"
+      },
+      {
+        "title": "Architect",
+        "experience": "3+ Years",
+        "type": "Full Time"
+      },
+      {
+        "title": "Project Manager",
+        "experience": "7+ Years",
+        "type": "Full Time"
+      }
+    ],
+    "internships": [
+      {
+        "title": "Site Engineer Intern",
+        "location": "Hyderabad",
+        "duration": "6 Months"
+      },
+      {
+        "title": "CAD/CAM Intern",
+        "location": "Hyderabad",
+        "duration": "3 Months"
+      },
+      {
+        "title": "2D and 3D Designer Intern",
+        "location": "Remote",
+        "duration": "3 Months"
+      },
+      {
+        "title": "Video Editing Intern",
+        "location": "Remote",
+        "duration": "3 Months"
+      }
+    ]
+  },
+  "gallery": [
+    "https://images.unsplash.com/photo-1541888081622-c20536443c51?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+  ],
+  "projects": {
+    "past": [
+      {
+        "title": "Sunrise Villas",
+        "description": "Luxury villa project completed in 2023",
+        "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        "title": "Green Valley Township",
+        "description": "Completed in 2022",
+        "image": "https://images.unsplash.com/photo-1541888081622-c20536443c51?auto=format&fit=crop&w=600&q=80"
+      }
+    ],
+    "present": [
+      {
+        "title": "Downtown Commercial Tower",
+        "description": "Expected completion 2026",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        "title": "Riverside Residences",
+        "description": "Ongoing project",
+        "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80"
+      }
+    ],
+    "upcoming": [
+      {
+        "title": "Eco-Friendly Tech Park",
+        "description": "Starting Q3 2027",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        "title": "Smart City Housing",
+        "description": "Planned for 2028",
+        "image": "https://images.unsplash.com/photo-1541888081622-c20536443c51?auto=format&fit=crop&w=600&q=80"
+      }
+    ]
+  }
+}
